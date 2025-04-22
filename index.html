@@ -1,1035 +1,1712 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" class="scroll-smooth">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تطبيق سبت العلاية</title>
-<meta name="theme-color" content="#3b82f6">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoi2KrYt9io2YrZgiDYs9io2Kog2KfZhNi52YTYp9mK2KkiLCJzaG9ydF9uYW1lIjoi2LPYqNiqINin2YTYudmE2KfZitipIiwiZGVzY3JpcHRpb24iOiLYqti32KjZitmCINiz2KjYqiDYp9mE2LnZhNin2YrYqSAtINio2YTZgtix2YYiLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZmZmZmZiIsInRoZW1lX2NvbG9yIjoiIzNiODJmNiJ9">
-<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIGZpbGw9IiMzYjgyZjYiLz48dGV4dCB4PSIyNTYiIHk9IjI1NiIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBUYWphd2FsOyBmb250LXNpemU6IDEyMHB4OyBmb250LXdlaWdodDogNzAwOyI+2LM8L3RleHQ+PC9zdmc+">
-<script src="https://cdn.tailwindcss.com/3.4.16"></script>
-<script>tailwind.config={theme:{extend:{colors:{primary:'#3b82f6',secondary:'#10b981'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
-<style>
-:where([class^="ri-"])::before { content: "\f3c2"; }
-body {
-font-family: 'Tajawal', sans-serif;
-}
-.modal {
-display: none;
-position: fixed;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-background: rgba(0, 0, 0, 0.8);
-z-index: 1000;
-justify-content: center;
-align-items: center;
-cursor: pointer;
-}
-.modal img {
-max-width: 90%;
-max-height: 90vh;
-object-fit: contain;
-border-radius: 8px;
-}
-.modal.active {
-display: flex;
-}
-.hero-section {
-background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(255,255,255,0.9)), url('https://readdy.ai/api/search-image?query=beautiful%20landscape%20of%20Saudi%20Arabia%20mountains%20with%20traditional%20architecture%2C%20lush%20green%20valleys%2C%20clear%20blue%20sky%2C%20natural%20scenery%2C%20traditional%20Saudi%20houses%20on%20hillside%2C%20high%20quality%2C%20detailed%2C%20cinematic%20lighting&width=1600&height=800&seq=1&orientation=landscape');
-background-size: cover;
-background-position: center;
-}
-.section-title::after {
-content: "";
-display: block;
-width: 80px;
-height: 4px;
-background-color: #3b82f6;
-margin: 12px auto 0;
-border-radius: 2px;
-}
-.card {
-transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.card:hover {
-transform: translateY(-5px);
-box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
-input[type="checkbox"] {
-appearance: none;
--webkit-appearance: none;
-width: 20px;
-height: 20px;
-border: 2px solid #3b82f6;
-border-radius: 4px;
-outline: none;
-cursor: pointer;
-position: relative;
-}
-input[type="checkbox"]:checked {
-background-color: #3b82f6;
-}
-input[type="checkbox"]:checked::before {
-content: "✓";
-position: absolute;
-color: white;
-font-size: 14px;
-top: 50%;
-left: 50%;
-transform: translate(-50%, -50%);
-}
-.custom-switch {
-position: relative;
-display: inline-block;
-width: 50px;
-height: 24px;
-}
-.custom-switch input {
-opacity: 0;
-width: 0;
-height: 0;
-}
-.slider {
-position: absolute;
-cursor: pointer;
-top: 0;
-left: 0;
-right: 0;
-bottom: 0;
-background-color: #ccc;
-transition: .4s;
-border-radius: 24px;
-}
-.slider:before {
-position: absolute;
-content: "";
-height: 18px;
-width: 18px;
-left: 3px;
-bottom: 3px;
-background-color: white;
-transition: .4s;
-border-radius: 50%;
-}
-input:checked + .slider {
-background-color: #3b82f6;
-}
-input:checked + .slider:before {
-transform: translateX(26px);
-}
-.tab-active {
-background-color: #3b82f6;
-color: white;
-}
-.photo-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-gap: 16px;
-}
-@media (max-width: 768px) {
-.photo-grid {
-grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-}
-}
-.map-container {
-height: 400px;
-background-image: url('https://public.readdy.ai/gen_page/map_placeholder_1280x720.png');
-background-size: cover;
-background-position: center;
-}
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
--webkit-appearance: none;
-margin: 0;
-}
-</style>
-</head>
-<body class="bg-gray-50 min-h-screen pb-16">
-<div id="offline-toast" class="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
-أنت غير متصل بالإنترنت
-</div>
-<div id="install-prompt" class="fixed bottom-4 left-4 right-4 bg-white p-4 rounded-lg shadow-lg hidden">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-3">
-<div class="w-12 h-12 flex items-center justify-center bg-primary rounded-lg">
-<i class="ri-download-2-line text-white text-2xl"></i>
-</div>
-<div>
-<h3 class="font-bold text-gray-900">تثبيت التطبيق</h3>
-<p class="text-sm text-gray-600">قم بتثبيت التطبيق للوصول السريع</p>
-</div>
-</div>
-<div class="flex items-center gap-2">
-<button id="install-dismiss" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">لاحقاً</button>
-<button id="install-accept" class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600 transition">تثبيت</button>
-</div>
-</div>
-</div>
-<!-- Header Navigation -->
-<header class="bg-white shadow-sm sticky top-0 z-50">
-<div class="container mx-auto px-4 py-3 flex justify-between items-center">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 flex items-center justify-center">
-<i class="ri-notification-3-line text-gray-600 text-xl"></i>
-</div>
-<h1 class="text-xl font-['Pacifico'] text-primary">سبت العلاية</h1>
-</div>
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 flex items-center justify-center">
-<i class="ri-search-line text-gray-600 text-xl"></i>
-</div>
-<div class="w-10 h-10 flex items-center justify-center">
-<i class="ri-user-line text-gray-600 text-xl"></i>
-</div>
-</div>
-</div>
-</header>
-<!-- Bottom Navigation -->
-<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50">
-<div class="flex justify-around items-center py-2">
-<a href="#home" class="flex flex-col items-center gap-1 px-3 py-1 text-primary">
-<i class="ri-home-5-line text-xl"></i>
-<span class="text-xs">الرئيسية</span>
-</a>
-<a href="#recreation" class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600">
-<i class="ri-map-pin-line text-xl"></i>
-<span class="text-xs">المواقع</span>
-</a>
-<a href="#historical" class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600">
-<i class="ri-building-2-line text-xl"></i>
-<span class="text-xs">التراث</span>
-</a>
-<a href="#restaurants" class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600">
-<i class="ri-store-2-line text-xl"></i>
-<span class="text-xs">المطاعم</span>
-</a>
-<a href="#gallery" class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600">
-<i class="ri-image-line text-xl"></i>
-<span class="text-xs">الصور</span>
-</a>
-</div>
-</nav>
-<!-- Hero Section -->
-<section id="home" class="hero-section w-full pt-6 pb-8">
-<div class="container mx-auto px-4">
-<div class="flex flex-col gap-6">
-<!-- Search Bar -->
-<div class="relative">
-<input type="search" placeholder="ابحث عن الأماكن والمعالم..." class="w-full px-4 py-3 pr-12 bg-white rounded-xl shadow-sm border-none text-sm">
-<i class="ri-search-line absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-</div>
-<!-- Quick Actions -->
-<div class="grid grid-cols-4 gap-4">
-<a href="#recreation" class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm">
-<div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-lg text-primary">
-<i class="ri-map-pin-line text-xl"></i>
-</div>
-<span class="text-xs text-gray-700">المواقع</span>
-</a>
-<a href="#historical" class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm">
-<div class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-lg text-secondary">
-<i class="ri-building-2-line text-xl"></i>
-</div>
-<span class="text-xs text-gray-700">التراث</span>
-</a>
-<a href="#restaurants" class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm">
-<div class="w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-lg text-yellow-600">
-<i class="ri-store-2-line text-xl"></i>
-</div>
-<span class="text-xs text-gray-700">المطاعم</span>
-</a>
-<a href="#gallery" class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm">
-<div class="w-12 h-12 flex items-center justify-center bg-purple-100 rounded-lg text-purple-600">
-<i class="ri-image-line text-xl"></i>
-</div>
-<span class="text-xs text-gray-700">الصور</span>
-</a>
-</div>
-<!-- Featured Section -->
-<div class="bg-white rounded-xl p-4 shadow-sm">
-<div class="flex justify-between items-center mb-4">
-<h2 class="text-lg font-bold text-gray-900">المواقع المميزة</h2>
-<a href="#recreation" class="text-primary text-sm">عرض الكل</a>
-</div>
-<div class="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4">
-<div class="flex-shrink-0 w-48">
-<img src="https://readdy.ai/api/search-image?query=beautiful%20tourist%20spot%20in%20Saudi%20Arabia%2C%20traditional%20architecture%2C%20mountains%20background%2C%20scenic%20view%2C%20high%20quality&width=200&height=150&seq=20&orientation=landscape" alt="موقع مميز" class="w-full h-32 object-cover rounded-lg mb-2">
-<h3 class="text-sm font-medium text-gray-900">منتزه شيبانة</h3>
-<p class="text-xs text-gray-600">موقع سياحي مميز</p>
-</div>
-<div class="flex-shrink-0 w-48">
-<img src="https://readdy.ai/api/search-image?query=traditional%20Saudi%20market%2C%20local%20products%2C%20cultural%20atmosphere%2C%20people%20shopping%2C%20high%20quality&width=200&height=150&seq=21&orientation=landscape" alt="سوق شعبي" class="w-full h-32 object-cover rounded-lg mb-2">
-<h3 class="text-sm font-medium text-gray-900">السوق الشعبي</h3>
-<p class="text-xs text-gray-600">سوق تراثي أصيل</p>
-</div>
-<div class="flex-shrink-0 w-48">
-<img src="https://readdy.ai/api/search-image?query=modern%20Saudi%20cafe%2C%20stylish%20interior%2C%20people%20enjoying%20coffee%2C%20contemporary%20design%2C%20high%20quality&width=200&height=150&seq=22&orientation=landscape" alt="كافيه عصري" class="w-full h-32 object-cover rounded-lg mb-2">
-<h3 class="text-sm font-medium text-gray-900">كافيه هاف مليون</h3>
-<p class="text-xs text-gray-600">مقهى عصري مميز</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- About Section with Map -->
-<section class="py-16 bg-white">
-<div class="container mx-auto px-4">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-<div>
-<h2 class="text-3xl font-bold text-gray-900 mb-6">نبذة عن المحافظة</h2>
-<p class="text-gray-700 mb-4">
-تضم سبت العلاية مسجد السدرة العتيق، وتشتهر بطقس معتدل ومعالم طبيعية وتراثية متنوعة. تعتبر المركز التجاري الأول في المحافظة، حيث تتوفر بها جميع الخدمات الأساسية التي يحتاجها السكان والزوار.
-</p>
-<p class="text-gray-700 mb-6">
-تتميز المنطقة بتنوع تضاريسها وجمال طبيعتها، مما يجعلها وجهة مثالية للسياح الباحثين عن الهدوء والاستمتاع بالطبيعة الخلابة والتراث الأصيل.
-</p>
-<div class="flex flex-wrap gap-4 mb-6">
-<div class="flex items-center gap-2">
-<div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-primary">
-<i class="ri-map-pin-line ri-lg"></i>
-</div>
-<span class="text-gray-700">منطقة عسير</span>
-</div>
-<div class="flex items-center gap-2">
-<div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-primary">
-<i class="ri-sun-line ri-lg"></i>
-</div>
-<span class="text-gray-700">مناخ معتدل</span>
-</div>
-<div class="flex items-center gap-2">
-<div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-primary">
-<i class="ri-history-line ri-lg"></i>
-</div>
-<span class="text-gray-700">تاريخ عريق</span>
-</div>
-</div>
-</div>
-<div class="map-container rounded-lg shadow-md"></div>
-</div>
-</div>
-</section>
-<!-- Recreational Sites Section -->
-<section id="recreation" class="py-16 bg-gray-50">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl font-bold text-center text-gray-900 mb-2 section-title">المواقع الترفيهية</h2>
-<p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-استمتع بأجمل الأماكن الترفيهية في سبت العلاية، حيث الطبيعة الخلابة والمرافق المتميزة
-</p>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-<!-- منتزه شيبانة -->
-<div class="card bg-white rounded-lg overflow-hidden shadow-md">
-<div class="h-56 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=beautiful%20park%20in%20Saudi%20Arabia%20with%20green%20spaces%2C%20walking%20paths%2C%20childrens%20play%20areas%2C%20traditional%20architecture%20elements%2C%20families%20enjoying%20outdoor%20activities%2C%20mountains%20in%20background%2C%20high%20quality%2C%20detailed&width=600&height=400&seq=2&orientation=landscape" alt="منتزه شيبانة" class="w-full h-full object-cover object-top">
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold text-gray-900 mb-2">منتزه شيبانة</h3>
-<p class="text-gray-700 mb-4">
-يعد منتزه شيبانة من أجمل المنتزهات في المنطقة، حيث يتميز بمساحاته الخضراء الواسعة ومرافقه المتنوعة التي تناسب جميع أفراد العائلة.
-</p>
-<div class="flex justify-between items-center">
-<div class="flex items-center gap-2 text-gray-600">
-<i class="ri-time-line"></i>
-<span>9:00 ص - 11:00 م</span>
-</div>
-<a href="https://maps.app.goo.gl/3esCfTvbEkLovPQ7A" target="_blank" class="text-primary flex items-center gap-1 hover:text-blue-700">
-<span>الموقع</span>
-<i class="ri-map-pin-line"></i>
-</a>
-</div>
-</div>
-</div>
-<!-- حديقة الإبداع -->
-<div class="card bg-white rounded-lg overflow-hidden shadow-md">
-<div class="h-56 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=modern%20creative%20park%20in%20Saudi%20Arabia%20with%20innovative%20play%20structures%2C%20artistic%20installations%2C%20colorful%20design%20elements%2C%20families%20enjoying%20activities%2C%20clear%20blue%20sky%2C%20mountains%20in%20background%2C%20high%20quality%2C%20detailed&width=600&height=400&seq=3&orientation=landscape" alt="حديقة الإبداع" class="w-full h-full object-cover object-top">
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold text-gray-900 mb-2">حديقة الإبداع</h3>
-<p class="text-gray-700 mb-4">
-حديقة الإبداع هي وجهة عائلية مميزة تجمع بين المتعة والتعلم، وتحتوي على العديد من المرافق الترفيهية والتعليمية المناسبة لمختلف الأعمار.
-</p>
-<div class="flex justify-between items-center">
-<div class="flex items-center gap-2 text-gray-600">
-<i class="ri-time-line"></i>
-<span>8:00 ص - 10:00 م</span>
-</div>
-<a href="https://maps.app.goo.gl/VykrAisy3yqDxSRZ6" target="_blank" class="text-primary flex items-center gap-1 hover:text-blue-700">
-<span>الموقع</span>
-<i class="ri-map-pin-line"></i>
-</a>
-</div>
-</div>
-</div>
-<!-- ممشى المشايعة -->
-<div class="card bg-white rounded-lg overflow-hidden shadow-md">
-<div class="h-56 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=scenic%20walking%20path%20in%20Saudi%20Arabia%20with%20mountains%2C%20trees%20lining%20the%20path%2C%20people%20walking%20and%20jogging%2C%20benches%20for%20resting%2C%20beautiful%20landscaping%2C%20clear%20blue%20sky%2C%20high%20quality%2C%20detailed&width=600&height=400&seq=4&orientation=landscape" alt="ممشى المشايعة" class="w-full h-full object-cover object-top">
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold text-gray-900 mb-2">ممشى المشايعة</h3>
-<p class="text-gray-700 mb-4">
-يعتبر ممشى المشايعة وجهة مثالية لمحبي المشي والرياضة، حيث يمتد على مسافة طويلة وسط مناظر طبيعية خلابة ويوفر مرافق متنوعة للزوار.
-</p>
-<div class="flex justify-between items-center">
-<div class="flex items-center gap-2 text-gray-600">
-<i class="ri-time-line"></i>
-<span>متاح 24 ساعة</span>
-</div>
-<a href="https://maps.app.goo.gl/igVZQuqundSYk5Pr5" target="_blank" class="text-primary flex items-center gap-1 hover:text-blue-700">
-<span>الموقع</span>
-<i class="ri-map-pin-line"></i>
-</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Historical Sites Section -->
-<section id="historical" class="py-16 bg-white">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl font-bold text-center text-gray-900 mb-2 section-title">المواقع التاريخية</h2>
-<p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-اكتشف التراث العريق والتاريخ الأصيل لمحافظة سبت العلاية من خلال مواقعها التاريخية المميزة
-</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<!-- القرية التراثية -->
-<div class="card bg-white rounded-lg overflow-hidden shadow-md">
-<div class="h-64 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=traditional%20Saudi%20heritage%20village%20with%20mud%20brick%20houses%2C%20narrow%20streets%2C%20authentic%20architecture%2C%20historical%20buildings%2C%20traditional%20decorations%2C%20cultural%20elements%2C%20mountains%20in%20background%2C%20high%20quality%2C%20detailed&width=700&height=500&seq=5&orientation=landscape" alt="القرية التراثية" class="w-full h-full object-cover object-top">
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold text-gray-900 mb-2">القرية التراثية</h3>
-<p class="text-gray-700 mb-4">
-تعد القرية التراثية في سبت العلاية نموذجاً حياً للتراث المعماري الأصيل في المنطقة، حيث تضم مجموعة من المباني التاريخية التي تعكس طراز البناء التقليدي وأسلوب الحياة قديماً.
-</p>
-<div class="flex flex-wrap gap-3 mb-4">
-<span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">معلم تاريخي</span>
-<span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">تراث معماري</span>
-<span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">ثقافة محلية</span>
-</div>
-<div class="flex justify-between items-center">
-<div class="flex items-center gap-2 text-gray-600">
-<i class="ri-time-line"></i>
-<span>9:00 ص - 6:00 م</span>
-</div>
-<a href="https://maps.app.goo.gl/7Pya3McX46jcWoT59" target="_blank" class="text-primary flex items-center gap-1 hover:text-blue-700">
-<span>الموقع</span>
-<i class="ri-map-pin-line"></i>
-</a>
-</div>
-</div>
-</div>
-<!-- سوق سبت العلاية الشعبي -->
-<div class="card bg-white rounded-lg overflow-hidden shadow-md">
-<div class="h-64 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=traditional%20Saudi%20market%20%28souk%29%20with%20vendors%20selling%20local%20products%2C%20handicrafts%2C%20spices%2C%20textiles%2C%20bustling%20with%20shoppers%2C%20traditional%20architecture%2C%20authentic%20atmosphere%2C%20high%20quality%2C%20detailed&width=700&height=500&seq=6&orientation=landscape" alt="سوق سبت العلاية الشعبي" class="w-full h-full object-cover object-top">
-</div>
-<div class="p-6">
-<h3 class="text-xl font-bold text-gray-900 mb-2">سوق سبت العلاية الشعبي</h3>
-<p class="text-gray-700 mb-4">
-يعتبر سوق سبت العلاية الشعبي من أقدم الأسواق في المنطقة، حيث سميت المدينة نسبة إليه. يعرض السوق منتجات محلية متنوعة من الحرف اليدوية والمنتجات الزراعية والأطعمة التقليدية.
-</p>
-<div class="flex flex-wrap gap-3 mb-4">
-<span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">سوق تقليدي</span>
-<span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">حرف يدوية</span>
-<span class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full">منتجات محلية</span>
-</div>
-<div class="flex justify-between items-center">
-<div class="flex items-center gap-2 text-gray-600">
-<i class="ri-time-line"></i>
-<span>يوم السبت: 6:00 ص - 6:00 م</span>
-</div>
-<a href="https://maps.app.goo.gl/TchenvtsEXbvTmh4A" target="_blank" class="text-primary flex items-center gap-1 hover:text-blue-700">
-<span>الموقع</span>
-<i class="ri-map-pin-line"></i>
-</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Restaurants & Cafes Section -->
-<section id="restaurants" class="py-16 bg-gray-50">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl font-bold text-center text-gray-900 mb-2 section-title">المطاعم والكافيهات</h2>
-<p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-استمتع بتجربة طعام فريدة في أفضل المطاعم والكافيهات في سبت العلاية
-</p>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-<!-- كافيه هاف مليون -->
-<div class="card bg-white rounded-lg overflow-hidden shadow-md">
-<div class="h-48 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=modern%20Saudi%20cafe%20with%20stylish%20interior%2C%20comfortable%20seating%2C%20coffee%20being%20served%2C%20customers%20enjoying%20drinks%2C%20warm%20lighting%2C%20contemporary%20design%2C%20high%20quality%2C%20detailed&width=500&height=350&seq=7&orientation=landscape" alt="كافيه هاف مليون" class="w-full h-full object-cover object-top">
-</div>
-<div class="p-5">
-<h3 class="text-lg font-bold text-gray-900 mb-2">كافيه هاف مليون</h3>
-<div class="flex items-center mb-3">
-<div class="flex text-yellow-400">
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-half-fill"></i>
-</div>
-<span class="text-gray-600 text-sm mr-1">4.5 (120 تقييم)</span>
-</div>
-<p class="text-gray-700 text-sm mb-3">
-كافيه عصري يقدم أفضل أنواع القهوة والمشروبات المميزة في أجواء هادئة ومريحة.
-</p>
-<div class="flex justify-between items-center">
-<div class="flex items-center gap-1 text-gray-600 text-sm">
-<i class="ri-time-line"></i>
-<span>7:00 ص - 12:00 م</span>
-</div>
-<button class="text-primary text-sm hover:text-blue-700">عرض القائمة</button>
-</div>
-</div>
-</div>
-<!-- مطعم مشاوي العلايا -->
-<div class="card bg-white rounded-lg overflow-hidden shadow-md">
-<div class="h-48 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=traditional%20Saudi%20restaurant%20with%20grilled%20meats%20being%20prepared%2C%20chefs%20cooking%2C%20traditional%20decor%2C%20customers%20dining%2C%20warm%20atmosphere%2C%20authentic%20setting%2C%20high%20quality%2C%20detailed&width=500&height=350&seq=8&orientation=landscape" alt="مطعم مشاوي العلايا" class="w-full h-full object-cover object-top">
-</div>
-<div class="p-5">
-<h3 class="text-lg font-bold text-gray-900 mb-2">مطعم مشاوي العلايا</h3>
-<div class="flex items-center mb-3">
-<div class="flex text-yellow-400">
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-line"></i>
-</div>
-<span class="text-gray-600 text-sm mr-1">4.0 (85 تقييم)</span>
-</div>
-<p class="text-gray-700 text-sm mb-3">
-مطعم متخصص في المشاوي العربية التقليدية والأطباق المحلية الشهية.
-</p>
-<div class="flex justify-between items-center">
-<div class="flex items-center gap-1 text-gray-600 text-sm">
-<i class="ri-time-line"></i>
-<span>11:00 ص - 11:00 م</span>
-</div>
-<button class="text-primary text-sm hover:text-blue-700">عرض القائمة</button>
-</div>
-</div>
-</div>
-<!-- مقهى فيوليت -->
-<div class="card bg-white rounded-lg overflow-hidden shadow-md">
-<div class="h-48 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=elegant%20cafe%20with%20purple%20theme%20decor%2C%20stylish%20interior%2C%20customers%20enjoying%20desserts%20and%20coffee%2C%20comfortable%20seating%2C%20modern%20design%2C%20high%20quality%2C%20detailed&width=500&height=350&seq=9&orientation=landscape" alt="مقهى فيوليت" class="w-full h-full object-cover object-top">
-</div>
-<div class="p-5">
-<h3 class="text-lg font-bold text-gray-900 mb-2">مقهى فيوليت</h3>
-<div class="flex items-center mb-3">
-<div class="flex text-yellow-400">
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-</div>
-<span class="text-gray-600 text-sm mr-1">4.8 (150 تقييم)</span>
-</div>
-<p class="text-gray-700 text-sm mb-3">
-مقهى عصري يقدم مجموعة متنوعة من المشروبات والحلويات في أجواء أنيقة.
-</p>
-<div class="flex justify-between items-center">
-<div class="flex items-center gap-1 text-gray-600 text-sm">
-<i class="ri-time-line"></i>
-<span>8:00 ص - 12:00 م</span>
-</div>
-<button class="text-primary text-sm hover:text-blue-700">عرض القائمة</button>
-</div>
-</div>
-</div>
-<!-- مطعم فطور سبت -->
-<div class="card bg-white rounded-lg overflow-hidden shadow-md">
-<div class="h-48 overflow-hidden">
-<img src="https://readdy.ai/api/search-image?query=traditional%20Saudi%20breakfast%20restaurant%20with%20variety%20of%20breakfast%20dishes%2C%20bread%2C%20eggs%2C%20beans%2C%20tea%20being%20served%2C%20families%20dining%2C%20morning%20atmosphere%2C%20traditional%20decor%2C%20high%20quality%2C%20detailed&width=500&height=350&seq=10&orientation=landscape" alt="مطعم فطور سبت" class="w-full h-full object-cover object-top">
-</div>
-<div class="p-5">
-<h3 class="text-lg font-bold text-gray-900 mb-2">مطعم فطور سبت</h3>
-<div class="flex items-center mb-3">
-<div class="flex text-yellow-400">
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-fill"></i>
-<i class="ri-star-half-fill"></i>
-</div>
-<span class="text-gray-600 text-sm mr-1">4.6 (95 تقييم)</span>
-</div>
-<p class="text-gray-700 text-sm mb-3">
-مطعم متخصص في وجبات الفطور التقليدية والعصرية بنكهات محلية أصيلة.
-</p>
-<div class="flex justify-between items-center">
-<div class="flex items-center gap-1 text-gray-600 text-sm">
-<i class="ri-time-line"></i>
-<span>6:00 ص - 12:00 م</span>
-</div>
-<button class="text-primary text-sm hover:text-blue-700">عرض القائمة</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Photo Gallery Section -->
-<section id="gallery" class="py-16 bg-white">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl font-bold text-center text-gray-900 mb-2 section-title">معرض الصور</h2>
-<p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-استمتع بمشاهدة أجمل الصور من سبت العلاية، وشارك صورك المفضلة مع الآخرين
-</p>
-<div class="mb-8 flex justify-center">
-<div class="inline-flex bg-gray-100 p-1 rounded-full">
-<button class="gallery-tab tab-active px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-category="all">الكل</button>
-<button class="gallery-tab px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-category="nature">الطبيعة</button>
-<button class="gallery-tab px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-category="heritage">التراث</button>
-<button class="gallery-tab px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap" data-category="activities">الأنشطة</button>
-</div>
-</div>
-<div class="photo-grid mb-12">
-<div class="gallery-item nature" data-category="nature">
-<img src="https://a.top4top.io/p_33991lxmv1.jpeg" alt="طبيعة سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-<div class="gallery-item heritage" data-category="heritage">
-<img src="https://d.top4top.io/p_33994v7du2.jpeg" alt="تراث سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-<div class="gallery-item activities" data-category="activities">
-<img src="https://e.top4top.io/p_3399svlu83.jpeg" alt="أنشطة سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-<div class="gallery-item nature" data-category="nature">
-<img src="https://f.top4top.io/p_33994wyq94.jpeg" alt="طبيعة سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-<div class="gallery-item heritage" data-category="heritage">
-<img src="https://g.top4top.io/p_339989axc5.jpeg" alt="تراث سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-<div class="gallery-item activities" data-category="activities">
-<img src="https://h.top4top.io/p_3399um3c46.jpeg" alt="أنشطة سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-<div class="gallery-item nature" data-category="nature">
-<img src="https://i.top4top.io/p_3399bsw5y7.jpeg" alt="طبيعة سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-<div class="gallery-item heritage" data-category="heritage">
-<img src="https://j.top4top.io/p_3399xlvjm8.jpeg" alt="تراث سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-<div class="gallery-item nature" data-category="nature">
-<img src="https://k.top4top.io/p_3399v782i9.jpeg" alt="طبيعة سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-<div class="gallery-item activities" data-category="activities">
-<img src="https://l.top4top.io/p_33997ds2k10.jpeg" alt="أنشطة سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-<div class="gallery-item heritage" data-category="heritage">
-<img src="https://b.top4top.io/p_3399t8iia1.jpeg" alt="تراث سبت العلاية" class="w-full h-52 object-cover object-top rounded-lg shadow-md">
-</div>
-</div>
-</div>
-</section>
-<!-- Tourism Statistics -->
-<section class="py-16 bg-gray-50">
-<div class="container mx-auto px-4">
-<h2 class="text-3xl font-bold text-center text-gray-900 mb-2 section-title">إحصائيات السياحة</h2>
-<p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-تعرف على أحدث الإحصائيات السياحية في محافظة سبت العلاية
-</p>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-<div class="bg-white rounded-lg shadow-md p-6">
-<h3 class="text-xl font-bold text-gray-900 mb-4">عدد الزوار الشهري</h3>
-<div id="visitors-chart" class="h-80"></div>
-</div>
-<div class="bg-white rounded-lg shadow-md p-6">
-<h3 class="text-xl font-bold text-gray-900 mb-4">توزيع الزوار حسب المواقع</h3>
-<div id="distribution-chart" class="h-80"></div>
-</div>
-</div>
-</div>
-</section>
-<!-- Newsletter Section -->
-<section class="py-16 bg-primary bg-opacity-5">
-<div class="container mx-auto px-4">
-<div class="max-w-3xl mx-auto text-center">
-<h2 class="text-3xl font-bold text-gray-900 mb-4">ابق على اطلاع</h2>
-<p class="text-gray-700 mb-8">
-اشترك في نشرتنا الإخبارية للحصول على آخر الأخبار والفعاليات في سبت العلاية
-</p>
-<div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-<input type="email" class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none" placeholder="أدخل بريدك الإلكتروني">
-<button class="bg-primary text-white px-6 py-3 !rounded-button font-medium shadow-md hover:bg-blue-600 transition whitespace-nowrap">اشتراك</button>
-</div>
-</div>
-</div>
-</section>
-<!-- Footer -->
-<footer class="bg-gray-900 text-white py-12">
-<div class="container mx-auto px-4">
-<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-<div>
-<h3 class="text-xl font-bold mb-4">سبت العلاية</h3>
-<p class="text-gray-400 mb-4">
-اكتشف جمال وتراث محافظة سبت العلاية في منطقة عسير، المملكة العربية السعودية.
-</p>
-<div class="flex space-x-4 space-x-reverse">
-<a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition">
-<i class="ri-facebook-fill"></i>
-</a>
-<a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition">
-<i class="ri-twitter-x-fill"></i>
-</a>
-<a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition">
-<i class="ri-instagram-fill"></i>
-</a>
-<a href="#" class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition">
-<i class="ri-youtube-fill"></i>
-</a>
-</div>
-</div>
-<div>
-<h3 class="text-lg font-bold mb-4">روابط سريعة</h3>
-<ul class="space-y-2">
-<li><a href="#home" class="text-gray-400 hover:text-white transition">الرئيسية</a></li>
-<li><a href="#recreation" class="text-gray-400 hover:text-white transition">المواقع الترفيهية</a></li>
-<li><a href="#historical" class="text-gray-400 hover:text-white transition">المواقع التاريخية</a></li>
-<li><a href="#restaurants" class="text-gray-400 hover:text-white transition">المطاعم والكافيهات</a></li>
-<li><a href="#gallery" class="text-gray-400 hover:text-white transition">معرض الصور</a></li>
-</ul>
-</div>
-<div>
-<h3 class="text-lg font-bold mb-4">اتصل بنا</h3>
-<ul class="space-y-2">
-<li class="flex items-center gap-2">
-<i class="ri-map-pin-line"></i>
-<span class="text-gray-400">سبت العلاية، بلقرن، عسير</span>
-</li>
-<li class="flex items-center gap-2">
-<i class="ri-phone-line"></i>
-<span class="text-gray-400">+966 5XXXXXXXX</span>
-</li>
-<li class="flex items-center gap-2">
-<i class="ri-mail-line"></i>
-<span class="text-gray-400">info@sabtalolaya.sa</span>
-</li>
-</ul>
-</div>
-<div>
-<h3 class="text-lg font-bold mb-4">ساعات العمل</h3>
-<ul class="space-y-2">
-<li class="flex justify-between">
-<span class="text-gray-400">السبت - الخميس:</span>
-<span class="text-gray-400">8:00 ص - 8:00 م</span>
-</li>
-<li class="flex justify-between">
-<span class="text-gray-400">الجمعة:</span>
-<span class="text-gray-400">2:00 م - 8:00 م</span>
-</li>
-</ul>
-<div class="mt-6">
-<h3 class="text-lg font-bold mb-2">وسائل الدفع</h3>
-<div class="flex space-x-3 space-x-reverse">
-<i class="ri-visa-fill text-2xl text-gray-400"></i>
-<i class="ri-mastercard-fill text-2xl text-gray-400"></i>
-<i class="ri-apple-fill text-2xl text-gray-400"></i>
-</div>
-</div>
-</div>
-</div>
-<div class="border-t border-gray-800 mt-12 pt-8 text-center">
-<p class="text-gray-500">© 2025 سبت العلاية. جميع الحقوق محفوظة.</p>
-</div>
-</div>
-</footer>
-<script>
-// Service Worker Registration
-if ('serviceWorker' in navigator) {
-navigator.serviceWorker.register('/sw.js').then(function(registration) {
-console.log('ServiceWorker registration successful');
-}).catch(function(err) {
-console.log('ServiceWorker registration failed: ', err);
-});
-}
-// Offline Detection
-window.addEventListener('online', function() {
-document.getElementById('offline-toast').style.transform = 'translateX(full)';
-});
-window.addEventListener('offline', function() {
-document.getElementById('offline-toast').style.transform = 'translateX(0)';
-});
-// Install Prompt
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-e.preventDefault();
-deferredPrompt = e;
-document.getElementById('install-prompt').classList.remove('hidden');
-});
-document.getElementById('install-accept').addEventListener('click', async () => {
-if (deferredPrompt) {
-deferredPrompt.prompt();
-const { outcome } = await deferredPrompt.userChoice;
-if (outcome === 'accepted') {
-document.getElementById('install-prompt').classList.add('hidden');
-}
-deferredPrompt = null;
-}
-});
-document.getElementById('install-dismiss').addEventListener('click', () => {
-document.getElementById('install-prompt').classList.add('hidden');
-});
-document.addEventListener('DOMContentLoaded', function() {
-// Mobile menu toggle
-const mobileMenuButton = document.getElementById('mobile-menu-button');
-const mobileMenu = document.getElementById('mobile-menu');
-mobileMenuButton.addEventListener('click', function() {
-mobileMenu.classList.toggle('hidden');
-});
-// Gallery tabs
-const galleryTabs = document.querySelectorAll('.gallery-tab');
-const galleryItems = document.querySelectorAll('.gallery-item');
-galleryTabs.forEach(tab => {
-tab.addEventListener('click', function() {
-// Remove active class from all tabs
-galleryTabs.forEach(t => t.classList.remove('tab-active'));
-// Add active class to clicked tab
-this.classList.add('tab-active');
-const category = this.getAttribute('data-category');
-// Show/hide gallery items based on category
-galleryItems.forEach(item => {
-if (category === 'all' || item.getAttribute('data-category') === category) {
-item.style.display = 'block';
-} else {
-item.style.display = 'none';
-}
-});
-});
-});
-});
-document.addEventListener('DOMContentLoaded', function() {
-// Visitors Chart
-const visitorsChart = echarts.init(document.getElementById('visitors-chart'));
-const visitorsOption = {
-animation: false,
-tooltip: {
-trigger: 'axis',
-backgroundColor: 'rgba(255, 255, 255, 0.8)',
-textStyle: {
-color: '#1f2937'
-}
-},
-xAxis: {
-type: 'category',
-data: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
-axisLabel: {
-color: '#1f2937'
-},
-axisLine: {
-lineStyle: {
-color: '#e5e7eb'
-}
-}
-},
-yAxis: {
-type: 'value',
-axisLabel: {
-color: '#1f2937'
-},
-axisLine: {
-lineStyle: {
-color: '#e5e7eb'
-}
-},
-splitLine: {
-lineStyle: {
-color: '#f3f4f6'
-}
-}
-},
-grid: {
-left: '3%',
-right: '4%',
-bottom: '3%',
-top: '3%',
-containLabel: true
-},
-series: [
-{
-name: 'عدد الزوار',
-type: 'line',
-data: [1200, 1500, 2500, 3000, 2800, 3500, 4200, 4800, 4000, 3200, 3800, 4500],
-smooth: true,
-symbol: 'none',
-lineStyle: {
-color: 'rgba(87, 181, 231, 1)',
-width: 3
-},
-areaStyle: {
-color: {
-type: 'linear',
-x: 0,
-y: 0,
-x2: 0,
-y2: 1,
-colorStops: [{
-offset: 0, color: 'rgba(87, 181, 231, 0.2)'
-}, {
-offset: 1, color: 'rgba(87, 181, 231, 0.05)'
-}]
-}
-}
-}
-]
-};
-visitorsChart.setOption(visitorsOption);
-// Distribution Chart
-const distributionChart = echarts.init(document.getElementById('distribution-chart'));
-const distributionOption = {
-animation: false,
-tooltip: {
-trigger: 'item',
-backgroundColor: 'rgba(255, 255, 255, 0.8)',
-textStyle: {
-color: '#1f2937'
-}
-},
-legend: {
-orient: 'vertical',
-right: 10,
-top: 'center',
-textStyle: {
-color: '#1f2937'
-}
-},
-series: [
-{
-name: 'توزيع الزوار',
-type: 'pie',
-radius: ['40%', '70%'],
-avoidLabelOverlap: false,
-itemStyle: {
-borderRadius: 10,
-borderColor: '#fff',
-borderWidth: 2
-},
-label: {
-show: false
-},
-emphasis: {
-label: {
-show: false
-}
-},
-labelLine: {
-show: false
-},
-data: [
-{ value: 35, name: 'المواقع الترفيهية', itemStyle: { color: 'rgba(87, 181, 231, 1)' } },
-{ value: 30, name: 'المواقع التاريخية', itemStyle: { color: 'rgba(141, 211, 199, 1)' } },
-{ value: 25, name: 'المطاعم والكافيهات', itemStyle: { color: 'rgba(251, 191, 114, 1)' } },
-{ value: 10, name: 'أخرى', itemStyle: { color: 'rgba(252, 141, 98, 1)' } }
-]
-}
-]
-};
-distributionChart.setOption(distributionOption);
-// Resize charts when window is resized
-window.addEventListener('resize', function() {
-visitorsChart.resize();
-distributionChart.resize();
-});
-});
-</script>
-<script>
-// Cache DOM elements
-const menuItems = document.querySelectorAll('nav a');
-const sections = document.querySelectorAll('section');
-// Intersection Observer for sections
-const observerOptions = {
-threshold: 0.2
-};
-const observer = new IntersectionObserver((entries) => {
-entries.forEach(entry => {
-if (entry.isIntersecting) {
-const id = entry.target.getAttribute('id');
-menuItems.forEach(item => {
-item.classList.remove('text-primary');
-if (item.getAttribute('href') === `#${id}`) {
-item.classList.add('text-primary');
-}
-});
-}
-});
-}, observerOptions);
-sections.forEach(section => {
-observer.observe(section);
-});
-// Add to Home Screen detection for iOS
-const isIos = () => {
-const userAgent = window.navigator.userAgent.toLowerCase();
-return /iphone|ipad|ipod/.test(userAgent);
-};
-const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
-if (isIos() && !isInStandaloneMode()) {
-const iosPrompt = document.createElement('div');
-iosPrompt.innerHTML = `
-<div class="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg border-t border-gray-200">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-3">
-<div class="w-12 h-12 flex items-center justify-center bg-primary rounded-lg">
-<i class="ri-add-line text-white text-2xl"></i>
-</div>
-<div>
-<h3 class="font-bold text-gray-900">إضافة للشاشة الرئيسية</h3>
-<p class="text-sm text-gray-600">قم بإضافة التطبيق للوصول السريع</p>
-</div>
-</div>
-<button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
-<i class="ri-close-line text-xl"></i>
-</button>
-</div>
-</div>
-`;
-document.body.appendChild(iosPrompt);
-}
-</script>
-<div id="imageModal" class="modal" onclick="closeModal()">
-  <img id="modalImage" src="" alt="Expanded image">
-</div>
-<script>
-function openModal(imgSrc) {
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('modalImage');
-  modal.classList.add('active');
-  modalImg.src = imgSrc;
-  document.body.style.overflow = 'hidden';
-}
-function closeModal() {
-  const modal = document.getElementById('imageModal');
-  modal.classList.remove('active');
-  document.body.style.overflow = '';
-}
-// Add click event to all images that should be expandable
-document.addEventListener('DOMContentLoaded', function() {
-  const expandableImages = document.querySelectorAll('.gallery-item img, .card img');
-  expandableImages.forEach(img => {
-    img.style.cursor = 'pointer';
-    img.addEventListener('click', function(e) {
-      e.preventDefault();
-      openModal(this.src);
-    });
-  });
-});
-</script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تطبيق سبت العلاية</title>
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link
+      rel="manifest"
+      href="data:application/json;base64,eyJuYW1lIjoi2KrYt9io2YrZgiDYs9io2Kog2KfZhNi52YTYp9mK2KkiLCJzaG9ydF9uYW1lIjoi2LPYqNiqINin2YTYudmE2KfZitipIiwiZGVzY3JpcHRpb24iOiLYqti32KjZitmCINiz2KjYqiDYp9mE2LnZhNin2YrYqSAtINio2YTZgtix2YYiLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2ZmZmZmZiIsInRoZW1lX2NvbG9yIjoiIzNiODJmNiJ9"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+PHJlY3Qgd2lkdGg9IjUxMiIgaGVpZ2h0PSI1MTIiIGZpbGw9IiMzYjgyZjYiLz48dGV4dCB4PSIyNTYiIHk9IjI1NiIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBUYWphd2FsOyBmb250LXNpemU6IDEyMHB4OyBmb250LXdlaWdodDogNzAwOyI+2LM8L3RleHQ+PC9zdmc+"
+    />
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#3b82f6", secondary: "#10b981" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      font-family: 'Tajawal', sans-serif;
+      }
+      .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      }
+      .modal img {
+      max-width: 90%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 8px;
+      }
+      .modal.active {
+      display: flex;
+      }
+      .hero-section {
+      background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(255,255,255,0.9)), url('https://readdy.ai/api/search-image?query=beautiful%20landscape%20of%20Saudi%20Arabia%20mountains%20with%20traditional%20architecture%2C%20lush%20green%20valleys%2C%20clear%20blue%20sky%2C%20natural%20scenery%2C%20traditional%20Saudi%20houses%20on%20hillside%2C%20high%20quality%2C%20detailed%2C%20cinematic%20lighting&width=1600&height=800&seq=1&orientation=landscape');
+      background-size: cover;
+      background-position: center;
+      }
+      .section-title::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background-color: #3b82f6;
+      margin: 12px auto 0;
+      border-radius: 2px;
+      }
+      .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+      input[type="checkbox"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #3b82f6;
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      }
+      input[type="checkbox"]:checked {
+      background-color: #3b82f6;
+      }
+      input[type="checkbox"]:checked::before {
+      content: "✓";
+      position: absolute;
+      color: white;
+      font-size: 14px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      }
+      .custom-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      }
+      .custom-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+      }
+      .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+      }
+      .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+      }
+      input:checked + .slider {
+      background-color: #3b82f6;
+      }
+      input:checked + .slider:before {
+      transform: translateX(26px);
+      }
+      .tab-active {
+      background-color: #3b82f6;
+      color: white;
+      }
+      .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+      }
+      @media (max-width: 768px) {
+      .photo-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+      }
+      .map-container {
+      height: 400px;
+      background-image: url('https://static.readdy.ai/image/d02abdaf45c01f342aebb2d0eb4cfb31/7f84befccc461a961ed3c805b29ba902.png');
+      background-size: cover;
+      background-position: center;
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen pb-16">
+    <div
+      id="offline-toast"
+      class="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50"
+    >
+      أنت غير متصل بالإنترنت
+    </div>
+    <div
+      id="install-prompt"
+      class="fixed bottom-4 left-4 right-4 bg-white p-4 rounded-lg shadow-lg hidden"
+    >
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-12 h-12 flex items-center justify-center bg-primary rounded-lg"
+          >
+            <i class="ri-download-2-line text-white text-2xl"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-900">تثبيت التطبيق</h3>
+            <p class="text-sm text-gray-600">قم بتثبيت التطبيق للوصول السريع</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button
+            id="install-dismiss"
+            class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition"
+          >
+            لاحقاً
+          </button>
+          <button
+            id="install-accept"
+            class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600 transition"
+          >
+            تثبيت
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Header Navigation -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+      <div
+        class="container mx-auto px-4 py-3 flex justify-between items-center"
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 flex items-center justify-center">
+            <i class="ri-notification-3-line text-gray-600 text-xl"></i>
+          </div>
+          <h1 class="text-xl font-['Pacifico'] text-primary">
+            دليلك في سبت العلاية
+          </h1>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="relative group">
+            <div
+              class="w-10 h-10 flex items-center justify-center cursor-pointer"
+              id="searchToggle"
+            >
+              <i class="ri-search-line text-gray-600 text-xl"></i>
+            </div>
+            <div
+              class="absolute top-full right-0 mt-2 w-72 bg-white rounded-lg shadow-lg p-4 hidden group"
+              id="searchDropdown"
+            >
+              <div class="relative">
+                <input
+                  type="search"
+                  class="w-full pl-10 pr-4 py-2 bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white"
+                  placeholder="ابحث في الموقع..."
+                  id="searchInput"
+                />
+                <i
+                  class="ri-search-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                ></i>
+              </div>
+              <div
+                class="mt-3 max-h-64 overflow-y-auto hidden"
+                id="searchResults"
+              ></div>
+            </div>
+          </div>
+          <div class="w-10 h-10 flex items-center justify-center">
+            <i class="ri-user-line text-gray-600 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Bottom Navigation -->
+    <nav
+      class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50"
+    >
+      <div class="flex justify-around items-center py-2">
+        <a
+          href="#home"
+          class="flex flex-col items-center gap-1 px-3 py-1 text-primary"
+        >
+          <i class="ri-home-5-line text-xl"></i>
+          <span class="text-xs">الرئيسية</span>
+        </a>
+        <a
+          href="#recreation"
+          class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600"
+        >
+          <i class="ri-map-pin-line text-xl"></i>
+          <span class="text-xs">المواقع</span>
+        </a>
+        <a
+          href="#historical"
+          class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600"
+        >
+          <i class="ri-building-2-line text-xl"></i>
+          <span class="text-xs">التراث</span>
+        </a>
+        <a
+          href="#restaurants"
+          class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600"
+        >
+          <i class="ri-store-2-line text-xl"></i>
+          <span class="text-xs">المطاعم</span>
+        </a>
+        <a
+          href="#gallery"
+          class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600"
+        >
+          <i class="ri-image-line text-xl"></i>
+          <span class="text-xs">الصور</span>
+        </a>
+      </div>
+    </nav>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section w-full pt-6 pb-8">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col gap-6">
+          <!-- Search Bar -->
+          <div class="relative">
+            <input
+              type="search"
+              placeholder="ابحث عن الأماكن والمعالم..."
+              class="w-full px-4 py-3 pr-12 bg-white rounded-xl shadow-sm border-none text-sm"
+            />
+            <i
+              class="ri-search-line absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+            ></i>
+          </div>
+          <!-- Quick Actions -->
+          <div class="grid grid-cols-4 gap-4">
+            <a
+              href="#recreation"
+              class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-lg text-primary"
+              >
+                <i class="ri-map-pin-line text-xl"></i>
+              </div>
+              <span class="text-xs text-gray-700">المواقع</span>
+            </a>
+            <a
+              href="#historical"
+              class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-lg text-secondary"
+              >
+                <i class="ri-building-2-line text-xl"></i>
+              </div>
+              <span class="text-xs text-gray-700">التراث</span>
+            </a>
+            <a
+              href="#restaurants"
+              class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-lg text-yellow-600"
+              >
+                <i class="ri-store-2-line text-xl"></i>
+              </div>
+              <span class="text-xs text-gray-700">المطاعم</span>
+            </a>
+            <a
+              href="#gallery"
+              class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm"
+            >
+              <div
+                class="w-12 h-12 flex items-center justify-center bg-purple-100 rounded-lg text-purple-600"
+              >
+                <i class="ri-image-line text-xl"></i>
+              </div>
+              <span class="text-xs text-gray-700">الصور</span>
+            </a>
+          </div>
+          <!-- Featured Section -->
+          <div class="bg-white rounded-xl p-4 shadow-sm">
+            <div class="flex justify-between items-center mb-4">
+              <h2 class="text-lg font-bold text-gray-900">المواقع المميزة</h2>
+              <a href="#recreation" class="text-primary text-sm">عرض الكل</a>
+            </div>
+            <div class="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4">
+              <div class="flex-shrink-0 w-48">
+                <img
+                  src="https://readdy.ai/api/search-image?query=beautiful%20tourist%20spot%20in%20Saudi%20Arabia%2C%20traditional%20architecture%2C%20mountains%20background%2C%20scenic%20view%2C%20high%20quality&width=200&height=150&seq=20&orientation=landscape"
+                  alt="موقع مميز"
+                  class="w-full h-32 object-cover rounded-lg mb-2"
+                />
+                <h3 class="text-sm font-medium text-gray-900">منتزه شيبانة</h3>
+                <p class="text-xs text-gray-600">موقع سياحي مميز</p>
+              </div>
+              <div class="flex-shrink-0 w-48">
+                <img
+                  src="https://readdy.ai/api/search-image?query=traditional%20Saudi%20market%2C%20local%20products%2C%20cultural%20atmosphere%2C%20people%20shopping%2C%20high%20quality&width=200&height=150&seq=21&orientation=landscape"
+                  alt="سوق شعبي"
+                  class="w-full h-32 object-cover rounded-lg mb-2"
+                />
+                <h3 class="text-sm font-medium text-gray-900">السوق الشعبي</h3>
+                <p class="text-xs text-gray-600">سوق تراثي أصيل</p>
+              </div>
+              <div class="flex-shrink-0 w-48">
+                <img
+                  src="https://readdy.ai/api/search-image?query=modern%20Saudi%20cafe%2C%20stylish%20interior%2C%20people%20enjoying%20coffee%2C%20contemporary%20design%2C%20high%20quality&width=200&height=150&seq=22&orientation=landscape"
+                  alt="كافيه عصري"
+                  class="w-full h-32 object-cover rounded-lg mb-2"
+                />
+                <h3 class="text-sm font-medium text-gray-900">
+                  كافيه هاف مليون
+                </h3>
+                <p class="text-xs text-gray-600">مقهى عصري مميز</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- About Section with Map -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">
+              نبذة عن المحافظة
+            </h2>
+            <p class="text-gray-700 mb-4">
+              تضم سبت العلاية مسجد السدرة العتيق، وتشتهر بطقس معتدل ومعالم
+              طبيعية وتراثية متنوعة. تعتبر المركز التجاري الأول في المحافظة، حيث
+              تتوفر بها جميع الخدمات الأساسية التي يحتاجها السكان والزوار.
+            </p>
+            <p class="text-gray-700 mb-6">
+              تتميز المنطقة بتنوع تضاريسها وجمال طبيعتها، مما يجعلها وجهة مثالية
+              للسياح الباحثين عن الهدوء والاستمتاع بالطبيعة الخلابة والتراث
+              الأصيل.
+            </p>
+            <div class="flex flex-wrap gap-4 mb-6">
+              <div class="flex items-center gap-2">
+                <div
+                  class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-primary"
+                >
+                  <i class="ri-map-pin-line ri-lg"></i>
+                </div>
+                <span class="text-gray-700">منطقة عسير</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div
+                  class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-primary"
+                >
+                  <i class="ri-sun-line ri-lg"></i>
+                </div>
+                <span class="text-gray-700">مناخ معتدل</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div
+                  class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-primary"
+                >
+                  <i class="ri-history-line ri-lg"></i>
+                </div>
+                <span class="text-gray-700">تاريخ عريق</span>
+              </div>
+            </div>
+          </div>
+          <a
+            href="https://maps.app.goo.gl/SKyX3hqUMQ11TaP27"
+            data-readdy="true"
+            target="_blank"
+          >
+            <div class="map-container rounded-lg shadow-md"></div>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- Recreational Sites Section -->
+    <section id="recreation" class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-3xl font-bold text-center text-gray-900 mb-2 section-title"
+        >
+          المواقع الترفيهية
+        </h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          استمتع بأجمل الأماكن الترفيهية في سبت العلاية، حيث الطبيعة الخلابة
+          والمرافق المتميزة
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- منتزه شيبانة -->
+          <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-56 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=beautiful%20park%20in%20Saudi%20Arabia%20with%20green%20spaces%2C%20walking%20paths%2C%20childrens%20play%20areas%2C%20traditional%20architecture%20elements%2C%20families%20enjoying%20outdoor%20activities%2C%20mountains%20in%20background%2C%20high%20quality%2C%20detailed&width=600&height=400&seq=2&orientation=landscape"
+                alt="منتزه شيبانة"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">منتزه شيبانة</h3>
+              <p class="text-gray-700 mb-4">
+                يعد منتزه شيبانة من أجمل المنتزهات في المنطقة، حيث يتميز
+                بمساحاته الخضراء الواسعة ومرافقه المتنوعة التي تناسب جميع أفراد
+                العائلة.
+              </p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2 text-gray-600">
+                  <i class="ri-time-line"></i>
+                  <span>9:00 ص - 11:00 م</span>
+                </div>
+                <a
+                  href="https://maps.app.goo.gl/3esCfTvbEkLovPQ7A"
+                  target="_blank"
+                  class="text-primary flex items-center gap-1 hover:text-blue-700"
+                >
+                  <span>الموقع</span>
+                  <i class="ri-map-pin-line"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- حديقة الإبداع -->
+          <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-56 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=modern%20creative%20park%20in%20Saudi%20Arabia%20with%20innovative%20play%20structures%2C%20artistic%20installations%2C%20colorful%20design%20elements%2C%20families%20enjoying%20activities%2C%20clear%20blue%20sky%2C%20mountains%20in%20background%2C%20high%20quality%2C%20detailed&width=600&height=400&seq=3&orientation=landscape"
+                alt="حديقة الإبداع"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                حديقة الإبداع
+              </h3>
+              <p class="text-gray-700 mb-4">
+                حديقة الإبداع هي وجهة عائلية مميزة تجمع بين المتعة والتعلم،
+                وتحتوي على العديد من المرافق الترفيهية والتعليمية المناسبة
+                لمختلف الأعمار.
+              </p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2 text-gray-600">
+                  <i class="ri-time-line"></i>
+                  <span>8:00 ص - 10:00 م</span>
+                </div>
+                <a
+                  href="https://maps.app.goo.gl/VykrAisy3yqDxSRZ6"
+                  target="_blank"
+                  class="text-primary flex items-center gap-1 hover:text-blue-700"
+                >
+                  <span>الموقع</span>
+                  <i class="ri-map-pin-line"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- ممشى المشايعة -->
+          <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-56 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=scenic%20walking%20path%20in%20Saudi%20Arabia%20with%20mountains%2C%20trees%20lining%20the%20path%2C%20people%20walking%20and%20jogging%2C%20benches%20for%20resting%2C%20beautiful%20landscaping%2C%20clear%20blue%20sky%2C%20high%20quality%2C%20detailed&width=600&height=400&seq=4&orientation=landscape"
+                alt="ممشى المشايعة"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                ممشى المشايعة
+              </h3>
+              <p class="text-gray-700 mb-4">
+                يعتبر ممشى المشايعة وجهة مثالية لمحبي المشي والرياضة، حيث يمتد
+                على مسافة طويلة وسط مناظر طبيعية خلابة ويوفر مرافق متنوعة
+                للزوار.
+              </p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2 text-gray-600">
+                  <i class="ri-time-line"></i>
+                  <span>متاح 24 ساعة</span>
+                </div>
+                <a
+                  href="https://maps.app.goo.gl/igVZQuqundSYk5Pr5"
+                  target="_blank"
+                  class="text-primary flex items-center gap-1 hover:text-blue-700"
+                >
+                  <span>الموقع</span>
+                  <i class="ri-map-pin-line"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Historical Sites Section -->
+    <section id="historical" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-3xl font-bold text-center text-gray-900 mb-2 section-title"
+        >
+          المواقع التاريخية
+        </h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          اكتشف التراث العريق والتاريخ الأصيل لمحافظة سبت العلاية من خلال
+          مواقعها التاريخية المميزة
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- القرية التراثية -->
+          <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-64 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=traditional%20Saudi%20heritage%20village%20with%20mud%20brick%20houses%2C%20narrow%20streets%2C%20authentic%20architecture%2C%20historical%20buildings%2C%20traditional%20decorations%2C%20cultural%20elements%2C%20mountains%20in%20background%2C%20high%20quality%2C%20detailed&width=700&height=500&seq=5&orientation=landscape"
+                alt="القرية التراثية"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                القرية التراثية
+              </h3>
+              <p class="text-gray-700 mb-4">
+                تعد القرية التراثية في سبت العلاية نموذجاً حياً للتراث المعماري
+                الأصيل في المنطقة، حيث تضم مجموعة من المباني التاريخية التي تعكس
+                طراز البناء التقليدي وأسلوب الحياة قديماً.
+              </p>
+              <div class="flex flex-wrap gap-3 mb-4">
+                <span
+                  class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
+                  >معلم تاريخي</span
+                >
+                <span
+                  class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
+                  >تراث معماري</span
+                >
+                <span
+                  class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
+                  >ثقافة محلية</span
+                >
+              </div>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2 text-gray-600">
+                  <i class="ri-time-line"></i>
+                  <span>9:00 ص - 6:00 م</span>
+                </div>
+                <a
+                  href="https://maps.app.goo.gl/7Pya3McX46jcWoT59"
+                  target="_blank"
+                  class="text-primary flex items-center gap-1 hover:text-blue-700"
+                >
+                  <span>الموقع</span>
+                  <i class="ri-map-pin-line"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- سوق سبت العلاية الشعبي -->
+          <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-64 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=traditional%20Saudi%20market%20%28souk%29%20with%20vendors%20selling%20local%20products%2C%20handicrafts%2C%20spices%2C%20textiles%2C%20bustling%20with%20shoppers%2C%20traditional%20architecture%2C%20authentic%20atmosphere%2C%20high%20quality%2C%20detailed&width=700&height=500&seq=6&orientation=landscape"
+                alt="سوق سبت العلاية الشعبي"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-gray-900 mb-2">
+                سوق سبت العلاية الشعبي
+              </h3>
+              <p class="text-gray-700 mb-4">
+                يعتبر سوق سبت العلاية الشعبي من أقدم الأسواق في المنطقة، حيث
+                سميت المدينة نسبة إليه. يعرض السوق منتجات محلية متنوعة من الحرف
+                اليدوية والمنتجات الزراعية والأطعمة التقليدية.
+              </p>
+              <div class="flex flex-wrap gap-3 mb-4">
+                <span
+                  class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
+                  >سوق تقليدي</span
+                >
+                <span
+                  class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
+                  >حرف يدوية</span
+                >
+                <span
+                  class="bg-blue-100 text-blue-800 text-sm px-3 py-1 rounded-full"
+                  >منتجات محلية</span
+                >
+              </div>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2 text-gray-600">
+                  <i class="ri-time-line"></i>
+                  <span>يوم السبت: 6:00 ص - 6:00 م</span>
+                </div>
+                <a
+                  href="https://maps.app.goo.gl/TchenvtsEXbvTmh4A"
+                  target="_blank"
+                  class="text-primary flex items-center gap-1 hover:text-blue-700"
+                >
+                  <span>الموقع</span>
+                  <i class="ri-map-pin-line"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Restaurants & Cafes Section -->
+    <section id="restaurants" class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-3xl font-bold text-center text-gray-900 mb-2 section-title"
+        >
+          المطاعم والكافيهات
+        </h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          استمتع بتجربة طعام فريدة في أفضل المطاعم والكافيهات في سبت العلاية
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- كافيه هاف مليون -->
+          <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=modern%20Saudi%20cafe%20with%20stylish%20interior%2C%20comfortable%20seating%2C%20coffee%20being%20served%2C%20customers%20enjoying%20drinks%2C%20warm%20lighting%2C%20contemporary%20design%2C%20high%20quality%2C%20detailed&width=500&height=350&seq=7&orientation=landscape"
+                alt="كافيه هاف مليون"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-5">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">
+                كافيه هاف مليون
+              </h3>
+              <div class="flex items-center mb-3">
+                <div class="flex text-yellow-400">
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-half-fill"></i>
+                </div>
+                <span class="text-gray-600 text-sm mr-1">4.5 (120 تقييم)</span>
+              </div>
+              <p class="text-gray-700 text-sm mb-3">
+                كافيه عصري يقدم أفضل أنواع القهوة والمشروبات المميزة في أجواء
+                هادئة ومريحة.
+              </p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-1 text-gray-600 text-sm">
+                  <i class="ri-time-line"></i>
+                  <span>7:00 ص - 12:00 م</span>
+                </div>
+                <button
+                  onclick="openMenuModal('كافيه هاف مليون')"
+                  class="text-primary text-sm hover:text-blue-700 !rounded-button"
+                >
+                  عرض القائمة
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- مطعم مشاوي العلايا -->
+          <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=traditional%20Saudi%20restaurant%20with%20grilled%20meats%20being%20prepared%2C%20chefs%20cooking%2C%20traditional%20decor%2C%20customers%20dining%2C%20warm%20atmosphere%2C%20authentic%20setting%2C%20high%20quality%2C%20detailed&width=500&height=350&seq=8&orientation=landscape"
+                alt="مطعم مشاوي العلايا"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-5">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">
+                مطعم مشاوي العلايا
+              </h3>
+              <div class="flex items-center mb-3">
+                <div class="flex text-yellow-400">
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-line"></i>
+                </div>
+                <span class="text-gray-600 text-sm mr-1">4.0 (85 تقييم)</span>
+              </div>
+              <p class="text-gray-700 text-sm mb-3">
+                مطعم متخصص في المشاوي العربية التقليدية والأطباق المحلية الشهية.
+              </p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-1 text-gray-600 text-sm">
+                  <i class="ri-time-line"></i>
+                  <span>11:00 ص - 11:00 م</span>
+                </div>
+                <button
+                  onclick="openMenuModal('كافيه هاف مليون')"
+                  class="text-primary text-sm hover:text-blue-700 !rounded-button"
+                >
+                  عرض القائمة
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- مقهى فيوليت -->
+          <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=elegant%20cafe%20with%20purple%20theme%20decor%2C%20stylish%20interior%2C%20customers%20enjoying%20desserts%20and%20coffee%2C%20comfortable%20seating%2C%20modern%20design%2C%20high%20quality%2C%20detailed&width=500&height=350&seq=9&orientation=landscape"
+                alt="مقهى فيوليت"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-5">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">مقهى فيوليت</h3>
+              <div class="flex items-center mb-3">
+                <div class="flex text-yellow-400">
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                </div>
+                <span class="text-gray-600 text-sm mr-1">4.8 (150 تقييم)</span>
+              </div>
+              <p class="text-gray-700 text-sm mb-3">
+                مقهى عصري يقدم مجموعة متنوعة من المشروبات والحلويات في أجواء
+                أنيقة.
+              </p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-1 text-gray-600 text-sm">
+                  <i class="ri-time-line"></i>
+                  <span>8:00 ص - 12:00 م</span>
+                </div>
+                <button
+                  onclick="openMenuModal('كافيه هاف مليون')"
+                  class="text-primary text-sm hover:text-blue-700 !rounded-button"
+                >
+                  عرض القائمة
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- مطعم فطور سبت -->
+          <div class="card bg-white rounded-lg overflow-hidden shadow-md">
+            <div class="h-48 overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=traditional%20Saudi%20breakfast%20restaurant%20with%20variety%20of%20breakfast%20dishes%2C%20bread%2C%20eggs%2C%20beans%2C%20tea%20being%20served%2C%20families%20dining%2C%20morning%20atmosphere%2C%20traditional%20decor%2C%20high%20quality%2C%20detailed&width=500&height=350&seq=10&orientation=landscape"
+                alt="مطعم فطور سبت"
+                class="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div class="p-5">
+              <h3 class="text-lg font-bold text-gray-900 mb-2">
+                مطعم فطور سبت
+              </h3>
+              <div class="flex items-center mb-3">
+                <div class="flex text-yellow-400">
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-fill"></i>
+                  <i class="ri-star-half-fill"></i>
+                </div>
+                <span class="text-gray-600 text-sm mr-1">4.6 (95 تقييم)</span>
+              </div>
+              <p class="text-gray-700 text-sm mb-3">
+                مطعم متخصص في وجبات الفطور التقليدية والعصرية بنكهات محلية
+                أصيلة.
+              </p>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-1 text-gray-600 text-sm">
+                  <i class="ri-time-line"></i>
+                  <span>6:00 ص - 12:00 م</span>
+                </div>
+                <button
+                  onclick="openMenuModal('كافيه هاف مليون')"
+                  class="text-primary text-sm hover:text-blue-700 !rounded-button"
+                >
+                  عرض القائمة
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Photo Gallery Section -->
+    <section id="gallery" class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-3xl font-bold text-center text-gray-900 mb-2 section-title"
+        >
+          معرض الصور
+        </h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          استمتع بمشاهدة أجمل الصور من سبت العلاية، وشارك صورك المفضلة مع
+          الآخرين
+        </p>
+        <div class="mb-8 flex justify-center">
+          <div class="inline-flex bg-gray-100 p-1 rounded-full">
+            <button
+              class="gallery-tab tab-active px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap"
+              data-category="all"
+            >
+              الكل
+            </button>
+            <button
+              class="gallery-tab px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap"
+              data-category="nature"
+            >
+              الطبيعة
+            </button>
+            <button
+              class="gallery-tab px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap"
+              data-category="heritage"
+            >
+              التراث
+            </button>
+            <button
+              class="gallery-tab px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap"
+              data-category="activities"
+            >
+              الأنشطة
+            </button>
+          </div>
+        </div>
+        <div class="photo-grid mb-12">
+          <div class="gallery-item nature" data-category="nature">
+            <img
+              src="https://a.top4top.io/p_33991lxmv1.jpeg"
+              alt="طبيعة سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+          <div class="gallery-item heritage" data-category="heritage">
+            <img
+              src="https://d.top4top.io/p_33994v7du2.jpeg"
+              alt="تراث سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+          <div class="gallery-item activities" data-category="activities">
+            <img
+              src="https://e.top4top.io/p_3399svlu83.jpeg"
+              alt="أنشطة سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+          <div class="gallery-item nature" data-category="nature">
+            <img
+              src="https://f.top4top.io/p_33994wyq94.jpeg"
+              alt="طبيعة سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+          <div class="gallery-item heritage" data-category="heritage">
+            <img
+              src="https://g.top4top.io/p_339989axc5.jpeg"
+              alt="تراث سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+          <div class="gallery-item activities" data-category="activities">
+            <img
+              src="https://h.top4top.io/p_3399um3c46.jpeg"
+              alt="أنشطة سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+          <div class="gallery-item nature" data-category="nature">
+            <img
+              src="https://i.top4top.io/p_3399bsw5y7.jpeg"
+              alt="طبيعة سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+          <div class="gallery-item heritage" data-category="heritage">
+            <img
+              src="https://j.top4top.io/p_3399xlvjm8.jpeg"
+              alt="تراث سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+          <div class="gallery-item nature" data-category="nature">
+            <img
+              src="https://k.top4top.io/p_3399v782i9.jpeg"
+              alt="طبيعة سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+          <div class="gallery-item activities" data-category="activities">
+            <img
+              src="https://l.top4top.io/p_33997ds2k10.jpeg"
+              alt="أنشطة سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+          <div class="gallery-item heritage" data-category="heritage">
+            <img
+              src="https://b.top4top.io/p_3399t8iia1.jpeg"
+              alt="تراث سبت العلاية"
+              class="w-full h-52 object-cover object-top rounded-lg shadow-md"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Tourism Statistics -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-3xl font-bold text-center text-gray-900 mb-2 section-title"
+        >
+          إحصائيات السياحة
+        </h2>
+        <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+          تعرف على أحدث الإحصائيات السياحية في محافظة سبت العلاية
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">
+              عدد الزوار الشهري
+            </h3>
+            <div id="visitors-chart" class="h-80"></div>
+          </div>
+          <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">
+              توزيع الزوار حسب المواقع
+            </h3>
+            <div id="distribution-chart" class="h-80"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Newsletter Section -->
+    <section class="py-16 bg-primary bg-opacity-5">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">ابق على اطلاع</h2>
+          <p class="text-gray-700 mb-8">
+            اشترك في نشرتنا الإخبارية للحصول على آخر الأخبار والفعاليات في سبت
+            العلاية
+          </p>
+          <div class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+            <input
+              type="email"
+              class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none"
+              placeholder="أدخل بريدك الإلكتروني"
+            />
+            <button
+              class="bg-primary text-white px-6 py-3 !rounded-button font-medium shadow-md hover:bg-blue-600 transition whitespace-nowrap"
+            >
+              اشتراك
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">سبت العلاية</h3>
+            <p class="text-gray-400 mb-4">
+              اكتشف جمال وتراث محافظة سبت العلاية في منطقة عسير، المملكة العربية
+              السعودية.
+            </p>
+            <div class="flex space-x-4 space-x-reverse">
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition"
+              >
+                <i class="ri-twitter-x-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition"
+              >
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center bg-gray-800 rounded-full hover:bg-primary transition"
+              >
+                <i class="ri-youtube-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">روابط سريعة</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#home"
+                  class="text-gray-400 hover:text-white transition"
+                  >الرئيسية</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#recreation"
+                  class="text-gray-400 hover:text-white transition"
+                  >المواقع الترفيهية</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#historical"
+                  class="text-gray-400 hover:text-white transition"
+                  >المواقع التاريخية</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#restaurants"
+                  class="text-gray-400 hover:text-white transition"
+                  >المطاعم والكافيهات</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#gallery"
+                  class="text-gray-400 hover:text-white transition"
+                  >معرض الصور</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">اتصل بنا</h3>
+            <ul class="space-y-2">
+              <li class="flex items-center gap-2">
+                <i class="ri-map-pin-line"></i>
+                <span class="text-gray-400">سبت العلاية، بلقرن، عسير</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="ri-phone-line"></i>
+                <span class="text-gray-400">+966 5XXXXXXXX</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i class="ri-mail-line"></i>
+                <span class="text-gray-400">info@sabtalolaya.sa</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">ساعات العمل</h3>
+            <ul class="space-y-2">
+              <li class="flex justify-between">
+                <span class="text-gray-400">السبت - الخميس:</span>
+                <span class="text-gray-400">8:00 ص - 8:00 م</span>
+              </li>
+              <li class="flex justify-between">
+                <span class="text-gray-400">الجمعة:</span>
+                <span class="text-gray-400">2:00 م - 8:00 م</span>
+              </li>
+            </ul>
+            <div class="mt-6">
+              <h3 class="text-lg font-bold mb-2">وسائل الدفع</h3>
+              <div class="flex space-x-3 space-x-reverse">
+                <i class="ri-visa-fill text-2xl text-gray-400"></i>
+                <i class="ri-mastercard-fill text-2xl text-gray-400"></i>
+                <i class="ri-apple-fill text-2xl text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+          <p class="text-gray-500">© 2025 سبت العلاية. جميع الحقوق محفوظة.</p>
+        </div>
+      </div>
+    </footer>
+    <script>
+      // Search Functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchToggle = document.getElementById("searchToggle");
+        const searchDropdown = document.getElementById("searchDropdown");
+        const searchInput = document.getElementById("searchInput");
+        const searchResults = document.getElementById("searchResults");
+        // Toggle search dropdown
+        searchToggle.addEventListener("click", function (e) {
+          e.stopPropagation();
+          searchDropdown.classList.toggle("hidden");
+          if (!searchDropdown.classList.contains("hidden")) {
+            searchInput.focus();
+          }
+        });
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function (e) {
+          if (
+            !searchDropdown.contains(e.target) &&
+            !searchToggle.contains(e.target)
+          ) {
+            searchDropdown.classList.add("hidden");
+          }
+        });
+        // Search functionality
+        searchInput.addEventListener("input", function () {
+          const query = this.value.toLowerCase().trim();
+          if (query.length < 2) {
+            searchResults.classList.add("hidden");
+            return;
+          }
+          // Get all searchable content
+          const sections = document.querySelectorAll("section");
+          const results = [];
+          sections.forEach((section) => {
+            const headings = section.querySelectorAll("h2, h3");
+            const paragraphs = section.querySelectorAll("p");
+            headings.forEach((heading) => {
+              if (heading.textContent.toLowerCase().includes(query)) {
+                results.push({
+                  title: heading.textContent,
+                  type: "heading",
+                  element: heading,
+                });
+              }
+            });
+            paragraphs.forEach((para) => {
+              if (para.textContent.toLowerCase().includes(query)) {
+                results.push({
+                  title: para.textContent.substring(0, 100) + "...",
+                  type: "content",
+                  element: para,
+                });
+              }
+            });
+          });
+          // Display results
+          if (results.length > 0) {
+            searchResults.innerHTML = results
+              .map(
+                (result) => `
+      <div class="p-2 hover:bg-gray-50 rounded cursor-pointer" onclick="scrollToElement('${result.element.id || generateId(result.element)}')">
+      <div class="text-sm font-medium text-gray-900">${result.title}</div>
+      <div class="text-xs text-gray-500">${result.type === "heading" ? "عنوان" : "محتوى"}</div>
+      </div>
+      `,
+              )
+              .join("");
+            searchResults.classList.remove("hidden");
+          } else {
+            searchResults.innerHTML =
+              '<div class="p-2 text-sm text-gray-500">لا توجد نتائج</div>';
+            searchResults.classList.remove("hidden");
+          }
+        });
+      });
+      // Helper function to generate unique ID
+      function generateId(element) {
+        if (!element.id) {
+          element.id = "search-" + Math.random().toString(36).substr(2, 9);
+        }
+        return element.id;
+      }
+      // Helper function to scroll to element
+      function scrollToElement(elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+          // Close search dropdown
+          document.getElementById("searchDropdown").classList.add("hidden");
+        }
+      }
+      // Service Worker Registration
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("/sw.js")
+          .then(function (registration) {
+            console.log("ServiceWorker registration successful");
+          })
+          .catch(function (err) {
+            console.log("ServiceWorker registration failed: ", err);
+          });
+      }
+      // Offline Detection
+      window.addEventListener("online", function () {
+        document.getElementById("offline-toast").style.transform = "translateX(full)";
+      });
+      window.addEventListener("offline", function () {
+        document.getElementById("offline-toast").style.transform = "translateX(0)";
+      });
+      // Install Prompt
+      let deferredPrompt;
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById("install-prompt").classList.remove("hidden");
+      });
+      document
+        .getElementById("install-accept")
+        .addEventListener("click", async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === "accepted") {
+              document.getElementById("install-prompt").classList.add("hidden");
+            }
+            deferredPrompt = null;
+          }
+        });
+      document.getElementById("install-dismiss").addEventListener("click", () => {
+        document.getElementById("install-prompt").classList.add("hidden");
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenuButton.addEventListener("click", function () {
+          mobileMenu.classList.toggle("hidden");
+        });
+        // Gallery tabs
+        const galleryTabs = document.querySelectorAll(".gallery-tab");
+        const galleryItems = document.querySelectorAll(".gallery-item");
+        galleryTabs.forEach((tab) => {
+          tab.addEventListener("click", function () {
+            // Remove active class from all tabs
+            galleryTabs.forEach((t) => t.classList.remove("tab-active"));
+            // Add active class to clicked tab
+            this.classList.add("tab-active");
+            const category = this.getAttribute("data-category");
+            // Show/hide gallery items based on category
+            galleryItems.forEach((item) => {
+              if (
+                category === "all" ||
+                item.getAttribute("data-category") === category
+              ) {
+                item.style.display = "block";
+              } else {
+                item.style.display = "none";
+              }
+            });
+          });
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Visitors Chart
+        const visitorsChart = echarts.init(document.getElementById("visitors-chart"));
+        const visitorsOption = {
+          animation: false,
+          tooltip: {
+            trigger: "axis",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            textStyle: {
+              color: "#1f2937",
+            },
+          },
+          xAxis: {
+            type: "category",
+            data: [
+              "يناير",
+              "فبراير",
+              "مارس",
+              "أبريل",
+              "مايو",
+              "يونيو",
+              "يوليو",
+              "أغسطس",
+              "سبتمبر",
+              "أكتوبر",
+              "نوفمبر",
+              "ديسمبر",
+            ],
+            axisLabel: {
+              color: "#1f2937",
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#e5e7eb",
+              },
+            },
+          },
+          yAxis: {
+            type: "value",
+            axisLabel: {
+              color: "#1f2937",
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#e5e7eb",
+              },
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#f3f4f6",
+              },
+            },
+          },
+          grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "3%",
+            top: "3%",
+            containLabel: true,
+          },
+          series: [
+            {
+              name: "عدد الزوار",
+              type: "line",
+              data: [
+                1200, 1500, 2500, 3000, 2800, 3500, 4200, 4800, 4000, 3200, 3800,
+                4500,
+              ],
+              smooth: true,
+              symbol: "none",
+              lineStyle: {
+                color: "rgba(87, 181, 231, 1)",
+                width: 3,
+              },
+              areaStyle: {
+                color: {
+                  type: "linear",
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: "rgba(87, 181, 231, 0.2)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(87, 181, 231, 0.05)",
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        };
+        visitorsChart.setOption(visitorsOption);
+        // Distribution Chart
+        const distributionChart = echarts.init(
+          document.getElementById("distribution-chart"),
+        );
+        const distributionOption = {
+          animation: false,
+          tooltip: {
+            trigger: "item",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            textStyle: {
+              color: "#1f2937",
+            },
+          },
+          legend: {
+            orient: "vertical",
+            right: 10,
+            top: "center",
+            textStyle: {
+              color: "#1f2937",
+            },
+          },
+          series: [
+            {
+              name: "توزيع الزوار",
+              type: "pie",
+              radius: ["40%", "70%"],
+              avoidLabelOverlap: false,
+              itemStyle: {
+                borderRadius: 10,
+                borderColor: "#fff",
+                borderWidth: 2,
+              },
+              label: {
+                show: false,
+              },
+              emphasis: {
+                label: {
+                  show: false,
+                },
+              },
+              labelLine: {
+                show: false,
+              },
+              data: [
+                {
+                  value: 35,
+                  name: "المواقع الترفيهية",
+                  itemStyle: { color: "rgba(87, 181, 231, 1)" },
+                },
+                {
+                  value: 30,
+                  name: "المواقع التاريخية",
+                  itemStyle: { color: "rgba(141, 211, 199, 1)" },
+                },
+                {
+                  value: 25,
+                  name: "المطاعم والكافيهات",
+                  itemStyle: { color: "rgba(251, 191, 114, 1)" },
+                },
+                {
+                  value: 10,
+                  name: "أخرى",
+                  itemStyle: { color: "rgba(252, 141, 98, 1)" },
+                },
+              ],
+            },
+          ],
+        };
+        distributionChart.setOption(distributionOption);
+        // Resize charts when window is resized
+        window.addEventListener("resize", function () {
+          visitorsChart.resize();
+          distributionChart.resize();
+        });
+      });
+    </script>
+    <script>
+      // Cache DOM elements
+      const menuItems = document.querySelectorAll("nav a");
+      const sections = document.querySelectorAll("section");
+      // Intersection Observer for sections
+      const observerOptions = {
+        threshold: 0.2,
+      };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute("id");
+            menuItems.forEach((item) => {
+              item.classList.remove("text-primary");
+              if (item.getAttribute("href") === `#${id}`) {
+                item.classList.add("text-primary");
+              }
+            });
+          }
+        });
+      }, observerOptions);
+      sections.forEach((section) => {
+        observer.observe(section);
+      });
+      // Add to Home Screen detection for iOS
+      const isIos = () => {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        return /iphone|ipad|ipod/.test(userAgent);
+      };
+      const isInStandaloneMode = () =>
+        "standalone" in window.navigator && window.navigator.standalone;
+      if (isIos() && !isInStandaloneMode()) {
+        const iosPrompt = document.createElement("div");
+        iosPrompt.innerHTML = `
+      <div class="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg border-t border-gray-200">
+      <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+      <div class="w-12 h-12 flex items-center justify-center bg-primary rounded-lg">
+      <i class="ri-add-line text-white text-2xl"></i>
+      </div>
+      <div>
+      <h3 class="font-bold text-gray-900">إضافة للشاشة الرئيسية</h3>
+      <p class="text-sm text-gray-600">قم بإضافة التطبيق للوصول السريع</p>
+      </div>
+      </div>
+      <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
+      <i class="ri-close-line text-xl"></i>
+      </button>
+      </div>
+      </div>
+      `;
+        document.body.appendChild(iosPrompt);
+      }
+    </script>
+    <div id="imageModal" class="modal" onclick="closeModal()">
+      <img id="modalImage" src="" alt="Expanded image" />
+    </div>
+
+    <div
+      id="menuModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center"
+    >
+      <div
+        class="bg-white rounded-lg w-full max-w-2xl mx-4 overflow-hidden"
+        onclick="event.stopPropagation()"
+      >
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-6">
+            <h3
+              class="text-2xl font-bold text-gray-900"
+              id="menuModalTitle"
+            ></h3>
+            <button
+              onclick="closeMenuModal()"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              <i class="ri-close-line text-2xl"></i>
+            </button>
+          </div>
+          <div class="space-y-6">
+            <div>
+              <h4 class="text-lg font-bold text-gray-900 mb-3">
+                المشروبات الساخنة
+              </h4>
+              <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">قهوة عربية</span>
+                  <span class="text-gray-900 font-medium">15 ريال</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">كابتشينو</span>
+                  <span class="text-gray-900 font-medium">18 ريال</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">لاتيه</span>
+                  <span class="text-gray-900 font-medium">18 ريال</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">أمريكانو</span>
+                  <span class="text-gray-900 font-medium">16 ريال</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-gray-900 mb-3">
+                المشروبات الباردة
+              </h4>
+              <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">آيس لاتيه</span>
+                  <span class="text-gray-900 font-medium">20 ريال</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">فرابتشينو</span>
+                  <span class="text-gray-900 font-medium">22 ريال</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">موكا مثلجة</span>
+                  <span class="text-gray-900 font-medium">22 ريال</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">عصير طازج</span>
+                  <span class="text-gray-900 font-medium">18 ريال</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-gray-900 mb-3">الحلويات</h4>
+              <div class="space-y-2">
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">كيكة الشوكولاتة</span>
+                  <span class="text-gray-900 font-medium">25 ريال</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">تشيز كيك</span>
+                  <span class="text-gray-900 font-medium">28 ريال</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">كرواسون</span>
+                  <span class="text-gray-900 font-medium">15 ريال</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-gray-700">براونيز</span>
+                  <span class="text-gray-900 font-medium">20 ريال</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function openModal(imgSrc) {
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        modal.classList.add("active");
+        modalImg.src = imgSrc;
+        document.body.style.overflow = "hidden";
+      }
+      function closeModal() {
+        const modal = document.getElementById("imageModal");
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function openMenuModal(restaurantName) {
+        const modal = document.getElementById("menuModal");
+        const modalTitle = document.getElementById("menuModalTitle");
+        modalTitle.textContent = restaurantName;
+        modal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMenuModal() {
+        const modal = document.getElementById("menuModal");
+        modal.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+
+      // Close menu modal when clicking outside
+      document.getElementById("menuModal").addEventListener("click", function (e) {
+        if (e.target === this) {
+          closeMenuModal();
+        }
+      });
+      // Add click event to all images that should be expandable
+      document.addEventListener("DOMContentLoaded", function () {
+        const expandableImages = document.querySelectorAll(
+          ".gallery-item img, .card img",
+        );
+        expandableImages.forEach((img) => {
+          img.style.cursor = "pointer";
+          img.addEventListener("click", function (e) {
+            e.preventDefault();
+            openModal(this.src);
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
