@@ -20,7 +20,15 @@
       tailwind.config = {
         theme: {
           extend: {
-            colors: { primary: "#3b82f6", secondary: "#10b981" },
+            colors: {
+              primary: "#3b82f6",
+              secondary: "#10b981",
+              accent: "#8b5cf6",
+              success: "#22c55e",
+              warning: "#f59e0b",
+              danger: "#ef4444",
+              info: "#06b6d4"
+            },
             borderRadius: {
               none: "0px",
               sm: "4px",
@@ -119,14 +127,40 @@
         opacity: 0.8;
       }
 
+      /* Improve text readability */
+      .card p, .text-xs, .text-sm {
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .card h3 {
+        font-size: 1.1rem;
+        line-height: 1.4;
+        font-weight: 600;
+      }
+
       .bg-gray-50 {
         background-color: var(--bg-color);
       }
 
-      .dark .text-gray-600,
-      .dark .text-gray-700,
+      .dark .text-gray-600 {
+        color: #d1d5db !important;
+      }
+
+      .dark .text-gray-700 {
+        color: #e5e7eb !important;
+      }
+
       .dark .text-gray-900 {
-        color: var(--text-color);
+        color: #f9fafb !important;
+      }
+
+      .dark h2.section-title {
+        color: #f3f4f6 !important;
+      }
+
+      .dark p.text-center.text-gray-600 {
+        color: #d1d5db !important;
       }
 
       .dark .bg-white {
@@ -164,6 +198,36 @@
         color: var(--primary-color) !important;
       }
 
+      /* Bottom navigation icons */
+      nav a {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      nav a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background: var(--primary-color);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        border-radius: 3px;
+        opacity: 0;
+      }
+
+      nav a.active::after {
+        width: 60%;
+        opacity: 1;
+      }
+
+      nav a:hover {
+        transform: translateY(-3px);
+      }
+
       /* Bottom navigation icons in dark mode */
       .dark nav a {
         color: rgba(255, 255, 255, 0.9) !important; /* Brighter white for better visibility */
@@ -173,6 +237,208 @@
       .dark nav a.active {
         color: #60a5fa !important; /* Light blue color for dark mode */
         text-shadow: 0 0 8px rgba(96, 165, 250, 0.5); /* Blue glow effect for active icon */
+      }
+
+      .dark nav a.active::after {
+        background: #60a5fa;
+        box-shadow: 0 0 8px rgba(96, 165, 250, 0.7);
+      }
+
+      /* Fix section titles in dark mode */
+      .dark #historical h2 {
+        color: #f3f4f6 !important;
+      }
+
+      /* Special style for recreation title in dark mode */
+      .dark #recreation h2,
+      .dark #restaurants h2,
+      .dark #statistics h2 {
+        background: linear-gradient(to bottom, #4b5563, #1f2937) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        color: transparent !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+        font-weight: 700 !important;
+      }
+
+      .dark #historical p.text-center.text-gray-600 {
+        color: #d1d5db !important;
+        background: linear-gradient(to bottom, #4b5563, #1f2937) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        color: transparent !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+        font-weight: 500 !important;
+      }
+
+      /* Special style for restaurants description in dark mode */
+      .dark #restaurants p.text-center.text-gray-600 {
+        color: #d1d5db !important;
+        background: linear-gradient(to bottom, #4b5563, #111827) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        color: transparent !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+        font-weight: 600 !important;
+      }
+
+      /* Special style for recreation description in dark mode */
+      .dark #recreation p.text-center.text-gray-600,
+      .dark #statistics p.text-center.text-gray-600 {
+        color: #d1d5db !important;
+        background: linear-gradient(to bottom, #4b5563, #111827) !important;
+        -webkit-background-clip: text !important;
+        background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        color: transparent !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+        font-weight: 600 !important;
+      }
+
+      /* Fix card text in dark mode */
+      .dark .card h3 {
+        color: #f3f4f6 !important;
+      }
+
+      .dark .card p {
+        color: #d1d5db !important;
+      }
+
+      .dark span.text-gray-700 {
+        color: #d1d5db !important;
+      }
+
+      /* Search highlight effect */
+      .search-highlight {
+        animation: highlight-pulse 2s ease-in-out;
+        box-shadow: 0 0 0 2px var(--primary-color) !important;
+      }
+
+      @keyframes highlight-pulse {
+        0% { box-shadow: 0 0 0 2px var(--primary-color); }
+        50% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.5); }
+        100% { box-shadow: 0 0 0 2px var(--primary-color); }
+      }
+
+      /* Animations and hover effects */
+      .card, .btn, a, button, .section-title, .hero-section, nav a {
+        transition: all 0.3s ease;
+      }
+
+      a:hover, button:hover {
+        transform: translateY(-2px);
+      }
+
+      .card:hover img {
+        transform: scale(1.05);
+        transition: transform 0.5s ease;
+      }
+
+      /* Fade in animation for sections */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes slideInRight {
+        from { opacity: 0; transform: translateX(30px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
+      @keyframes slideInLeft {
+        from { opacity: 0; transform: translateX(-30px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+
+      @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+      }
+
+      section {
+        animation: fadeIn 0.8s ease-out forwards;
+      }
+
+      .section-title {
+        animation: slideInRight 0.8s ease-out forwards;
+      }
+
+      .card:nth-child(odd) {
+        animation: slideInLeft 0.8s ease-out forwards;
+      }
+
+      .card:nth-child(even) {
+        animation: slideInRight 0.8s ease-out forwards;
+      }
+
+      /* Enhanced shadows */
+      .shadow-enhanced {
+        box-shadow:
+          0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05),
+          0 0 0 1px rgba(0, 0, 0, 0.03);
+      }
+
+      .dark .shadow-enhanced {
+        box-shadow:
+          0 10px 15px -3px rgba(0, 0, 0, 0.3),
+          0 4px 6px -2px rgba(0, 0, 0, 0.15),
+          0 0 0 1px rgba(255, 255, 255, 0.05);
+      }
+
+      /* Add depth to cards */
+      .card {
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+
+      .dark .card {
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.2),
+          0 2px 4px -1px rgba(0, 0, 0, 0.12);
+      }
+
+      /* Improve button hover effects */
+      button, .btn, input[type="submit"] {
+        border-radius: 8px;
+        padding: 0.5rem 1.25rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      button:hover, .btn:hover, input[type="submit"]:hover {
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        transform: translateY(-2px);
+      }
+
+      button:active, .btn:active, input[type="submit"]:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
+      }
+
+      /* Button with gradient */
+      .btn-primary, button.bg-primary {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: white;
+        border: none;
+      }
+
+      .btn-secondary {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        border: none;
+      }
+
+      /* Smooth scrolling for the whole page */
+      html {
+        scroll-behavior: smooth;
       }
       .hero-section {
         background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(255,255,255,0.9)), url('https://readdy.ai/api/search-image?query=beautiful%20landscape%20of%20Saudi%20Arabia%20mountains%20with%20traditional%20architecture%2C%20lush%20green%20valleys%2C%20clear%20blue%20sky%2C%20natural%20scenery%2C%20traditional%20Saudi%20houses%20on%20hillside%2C%20high%20quality%2C%20detailed%2C%20cinematic%20lighting&width=1600&height=800&seq=1&orientation=landscape');
@@ -194,6 +460,21 @@
       }
       .card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card .card-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card .card-footer {
+        margin-top: auto;
       }
       .card:hover {
         transform: translateY(-5px);
@@ -298,20 +579,105 @@
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 16px;
       }
+
+      /* Enhanced gallery */
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .gallery-item img {
+        transition: all 0.5s ease;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.05);
+      }
+
+      .gallery-item::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 50%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .gallery-item:hover::after {
+        opacity: 1;
+      }
+      /* Responsive improvements */
       @media (max-width: 768px) {
         .photo-grid {
           grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         }
-      }
-      .map-container {
-        height: 400px;
-        background-image: url('https://static.readdy.ai/image/d02abdaf45c01f342aebb2d0eb4cfb31/7f84befccc461a961ed3c805b29ba902.png');
-        background-size: cover;
-        background-position: center;
+
+        /* Increase touch targets for mobile */
+        button, .btn, a, input[type="submit"], nav a {
+          padding: 0.625rem 1.25rem;
+          min-height: 44px;
+          min-width: 44px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* Improve readability on small screens */
+        body {
+          font-size: 16px;
+        }
+
+        h2 {
+          font-size: 1.75rem;
+        }
+
+        /* Adjust spacing for mobile */
+        .py-20 {
+          padding-top: 3rem;
+          padding-bottom: 3rem;
+        }
+
+        .card {
+          margin-bottom: 1rem;
+        }
       }
 
-      .dark .map-container {
-        filter: brightness(0.8) contrast(1.2);
+      /* Improve image loading */
+      img {
+        transition: opacity 0.3s ease;
+        opacity: 0;
+      }
+
+      img.loaded {
+        opacity: 1;
+      }
+      /* Google Maps iframe styles */
+      iframe.shadow-enhanced {
+        box-shadow:
+          0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05),
+          0 0 0 1px rgba(0, 0, 0, 0.03);
+        transition: all 0.3s ease;
+      }
+
+      iframe.shadow-enhanced:hover {
+        box-shadow:
+          0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04),
+          0 0 0 1px rgba(0, 0, 0, 0.03);
+        transform: translateY(-4px);
+      }
+
+      .dark iframe.shadow-enhanced {
+        filter: brightness(0.9) contrast(1.1);
         border: 1px solid var(--border-color);
       }
       input[type="number"]::-webkit-inner-spin-button,
@@ -343,38 +709,7 @@
     >
       أنت غير متصل بالإنترنت
     </div>
-    <div
-      id="install-prompt"
-      class="fixed bottom-4 left-4 right-4 bg-white p-4 rounded-lg shadow-lg hidden"
-    >
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-12 h-12 flex items-center justify-center bg-primary rounded-lg"
-          >
-            <i class="ri-download-2-line text-white text-2xl"></i>
-          </div>
-          <div>
-            <h3 class="font-bold text-gray-900">تثبيت التطبيق</h3>
-            <p class="text-sm text-gray-600">قم بتثبيت التطبيق للوصول السريع</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-2">
-          <button
-            id="install-dismiss"
-            class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition"
-          >
-            لاحقاً
-          </button>
-          <button
-            id="install-accept"
-            class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-600 transition"
-          >
-            تثبيت
-          </button>
-        </div>
-      </div>
-    </div>
+
     <!-- Header Navigation -->
     <header class="bg-white shadow-sm sticky top-0 z-50">
       <div
@@ -425,15 +760,13 @@
               ></div>
             </div>
           </div>
-          <div class="w-10 h-10 flex items-center justify-center">
-            <i class="ri-user-line text-gray-600 text-xl"></i>
-          </div>
+
         </div>
       </div>
     </header>
     <!-- Bottom Navigation -->
     <nav
-      class="fixed bottom-2 left-2 right-2 bg-opacity-40 backdrop-blur-md rounded-xl shadow-lg border border-opacity-30 z-50 bg-white border-white dark:bg-opacity-20 dark:bg-gray-900 dark:border-gray-500 dark:border-opacity-20 dark:backdrop-blur-lg dark:backdrop-brightness-125"
+      class="fixed bottom-2 left-2 right-2 bg-opacity-40 backdrop-blur-md rounded-xl shadow-enhanced border border-opacity-30 z-50 bg-white border-white dark:bg-opacity-20 dark:bg-gray-900 dark:border-gray-500 dark:border-opacity-20 dark:backdrop-blur-lg dark:backdrop-brightness-125"
     >
       <div class="flex justify-around items-center py-1.5 px-1">
         <a
@@ -494,6 +827,7 @@
           <div class="relative">
             <input
               type="search"
+              id="mainSearchInput"
               placeholder="ابحث عن الأماكن والمعالم..."
               class="w-full px-4 py-3 pr-12 bg-white rounded-xl shadow-sm border-none text-sm"
             />
@@ -633,18 +967,23 @@
               </div>
             </div>
           </div>
-          <a
-            href="https://maps.app.goo.gl/SKyX3hqUMQ11TaP27"
-            data-readdy="true"
-            target="_blank"
-          >
-            <div class="map-container rounded-lg shadow-md"></div>
-          </a>
+          <div class="rounded-lg shadow-md overflow-hidden h-400">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14959.265618536497!2d42.0246887!3d18.2055556!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15fec5b7e7b8c0d9%3A0x8a0f8a2a6d3e3e3a!2z2LPYqNiqINin2YTYudmE2KfZitip!5e0!3m2!1sar!2ssa!4v1620000000000!5m2!1sar!2ssa"
+              width="100%"
+              height="400"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              class="rounded-lg shadow-enhanced"
+            ></iframe>
+          </div>
         </div>
       </div>
     </section>
     <!-- Recreational Sites Section -->
-    <section id="recreation" class="py-16 bg-gray-50">
+    <section id="recreation" class="py-20 bg-gray-50">
       <div class="container mx-auto px-4">
         <h2
           class="text-3xl font-bold text-center text-gray-900 mb-2 section-title"
@@ -760,7 +1099,7 @@
       </div>
     </section>
     <!-- Historical Sites Section -->
-    <section id="historical" class="py-16 bg-white">
+    <section id="historical" class="py-20 bg-white">
       <div class="container mx-auto px-4">
         <h2
           class="text-3xl font-bold text-center text-gray-900 mb-2 section-title"
@@ -872,7 +1211,7 @@
       </div>
     </section>
     <!-- Restaurants & Cafes Section -->
-    <section id="restaurants" class="py-16 bg-gray-50">
+    <section id="restaurants" class="py-20 bg-gray-50">
       <div class="container mx-auto px-4">
         <h2
           class="text-3xl font-bold text-center text-gray-900 mb-2 section-title"
@@ -1506,28 +1845,7 @@
       window.addEventListener("offline", function () {
         document.getElementById("offline-toast").style.transform = "translateX(0)";
       });
-      // Install Prompt
-      let deferredPrompt;
-      window.addEventListener("beforeinstallprompt", (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        document.getElementById("install-prompt").classList.remove("hidden");
-      });
-      document
-        .getElementById("install-accept")
-        .addEventListener("click", async () => {
-          if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === "accepted") {
-              document.getElementById("install-prompt").classList.add("hidden");
-            }
-            deferredPrompt = null;
-          }
-        });
-      document.getElementById("install-dismiss").addEventListener("click", () => {
-        document.getElementById("install-prompt").classList.add("hidden");
-      });
+
       document.addEventListener("DOMContentLoaded", function () {
         // Mobile menu toggle
         const mobileMenuButton = document.getElementById("mobile-menu-button");
@@ -1756,35 +2074,7 @@
       sections.forEach((section) => {
         observer.observe(section);
       });
-      // Add to Home Screen detection for iOS
-      const isIos = () => {
-        const userAgent = window.navigator.userAgent.toLowerCase();
-        return /iphone|ipad|ipod/.test(userAgent);
-      };
-      const isInStandaloneMode = () =>
-        "standalone" in window.navigator && window.navigator.standalone;
-      if (isIos() && !isInStandaloneMode()) {
-        const iosPrompt = document.createElement("div");
-        iosPrompt.innerHTML = `
-      <div class="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg border-t border-gray-200">
-      <div class="flex items-center justify-between">
-      <div class="flex items-center gap-3">
-      <div class="w-12 h-12 flex items-center justify-center bg-primary rounded-lg">
-      <i class="ri-add-line text-white text-2xl"></i>
-      </div>
-      <div>
-      <h3 class="font-bold text-gray-900">إضافة للشاشة الرئيسية</h3>
-      <p class="text-sm text-gray-600">قم بإضافة التطبيق للوصول السريع</p>
-      </div>
-      </div>
-      <button onclick="this.parentElement.parentElement.remove()" class="text-gray-400 hover:text-gray-600">
-      <i class="ri-close-line text-xl"></i>
-      </button>
-      </div>
-      </div>
-      `;
-        document.body.appendChild(iosPrompt);
-      }
+
     </script>
     <div id="imageModal" class="modal" onclick="closeModal()">
       <img id="modalImage" src="" alt="Expanded image" />
@@ -2021,6 +2311,85 @@
         // Set home as active by default if no section is active
         if (!document.querySelector('nav a.active')) {
           document.getElementById('nav-home').classList.add('active');
+        }
+
+        // Lazy load images
+        const images = document.querySelectorAll('img');
+        if ('IntersectionObserver' in window) {
+          const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const img = entry.target;
+                img.classList.add('loaded');
+                imageObserver.unobserve(img);
+              }
+            });
+          });
+
+          images.forEach(img => {
+            imageObserver.observe(img);
+          });
+        } else {
+          // Fallback for browsers that don't support IntersectionObserver
+          images.forEach(img => {
+            img.classList.add('loaded');
+          });
+        }
+
+        // Handle search functionality
+        const searchInput = document.getElementById('mainSearchInput');
+        if (searchInput) {
+          // Focus event to show keyboard on mobile
+          searchInput.addEventListener('focus', function() {
+            // This is just to ensure the input is properly focused
+            setTimeout(() => this.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+          });
+
+          // Search functionality
+          searchInput.addEventListener('keyup', function(e) {
+            const searchTerm = this.value.toLowerCase().trim();
+
+            // If Enter key is pressed or search term is not empty
+            if (e.key === 'Enter' || searchTerm.length > 2) {
+              // Get all cards and sections that might contain searchable content
+              const cards = document.querySelectorAll('.card');
+              const sections = document.querySelectorAll('section[id]');
+              let foundItems = [];
+              let foundSection = null;
+
+              // Search through cards
+              cards.forEach(card => {
+                const cardTitle = card.querySelector('h3')?.textContent.toLowerCase() || '';
+                const cardDesc = card.querySelector('p')?.textContent.toLowerCase() || '';
+
+                if (cardTitle.includes(searchTerm) || cardDesc.includes(searchTerm)) {
+                  foundItems.push(card);
+                  // Find the parent section
+                  let section = card.closest('section[id]');
+                  if (section && !foundSection) {
+                    foundSection = section;
+                  }
+                }
+              });
+
+              // If we found matching items, scroll to the first one or its section
+              if (foundItems.length > 0 && foundSection) {
+                foundSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // Highlight the found items temporarily
+                foundItems.forEach(item => {
+                  item.classList.add('search-highlight');
+                  setTimeout(() => item.classList.remove('search-highlight'), 2000);
+                });
+
+                // Update the active navigation link
+                const sectionId = foundSection.getAttribute('id');
+                navLinks.forEach(link => link.classList.remove('active'));
+                const activeLink = document.querySelector(`nav a[href="#${sectionId}"]`);
+                if (activeLink) activeLink.classList.add('active');
+              }
+            }
+          });
         }
       });
     </script>
