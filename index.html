@@ -53,9 +53,30 @@
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
     <style>
+      :root {
+        --bg-color: #f9fafb;
+        --text-color: #111827;
+        --card-bg: #ffffff;
+        --header-bg: #ffffff;
+        --border-color: #e5e7eb;
+        --primary-color: #3b82f6;
+      }
+
+      .dark {
+        --bg-color: #1f2937;
+        --text-color: #f3f4f6;
+        --card-bg: #111827;
+        --header-bg: #111827;
+        --border-color: #374151;
+        --primary-color: #60a5fa;
+      }
+
       :where([class^="ri-"])::before { content: "\f3c2"; }
       body {
-      font-family: 'Tajawal', sans-serif;
+        font-family: 'Tajawal', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
       .modal {
       display: none;
@@ -77,119 +98,245 @@
       border-radius: 8px;
       }
       .modal.active {
-      display: flex;
+        display: flex;
+      }
+
+      header {
+        background-color: var(--header-bg);
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .bg-white {
+        background-color: var(--card-bg);
+      }
+
+      .text-gray-900 {
+        color: var(--text-color);
+      }
+
+      .text-gray-700, .text-gray-600 {
+        color: var(--text-color);
+        opacity: 0.8;
+      }
+
+      .bg-gray-50 {
+        background-color: var(--bg-color);
+      }
+
+      .dark .text-gray-600,
+      .dark .text-gray-700,
+      .dark .text-gray-900 {
+        color: var(--text-color);
+      }
+
+      .dark .bg-white {
+        background-color: var(--card-bg);
+      }
+
+      .dark .border-gray-200 {
+        border-color: var(--border-color);
+      }
+
+      .dark .shadow-lg,
+      .dark .shadow-md,
+      .dark .shadow-sm {
+        --tw-shadow-color: rgba(0, 0, 0, 0.3);
+      }
+
+      .dark .bg-blue-100 {
+        background-color: rgba(59, 130, 246, 0.2);
+      }
+
+      .dark .bg-green-100 {
+        background-color: rgba(16, 185, 129, 0.2);
+      }
+
+      .dark .bg-yellow-100 {
+        background-color: rgba(245, 158, 11, 0.2);
+      }
+
+      .dark .bg-purple-100 {
+        background-color: rgba(139, 92, 246, 0.2);
+      }
+
+      /* Bottom navigation icons */
+      nav a.active {
+        color: var(--primary-color) !important;
+      }
+
+      /* Bottom navigation icons in dark mode */
+      .dark nav a {
+        color: rgba(255, 255, 255, 0.9) !important; /* Brighter white for better visibility */
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); /* Subtle glow effect */
+      }
+
+      .dark nav a.active {
+        color: #60a5fa !important; /* Light blue color for dark mode */
+        text-shadow: 0 0 8px rgba(96, 165, 250, 0.5); /* Blue glow effect for active icon */
       }
       .hero-section {
-      background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(255,255,255,0.9)), url('https://readdy.ai/api/search-image?query=beautiful%20landscape%20of%20Saudi%20Arabia%20mountains%20with%20traditional%20architecture%2C%20lush%20green%20valleys%2C%20clear%20blue%20sky%2C%20natural%20scenery%2C%20traditional%20Saudi%20houses%20on%20hillside%2C%20high%20quality%2C%20detailed%2C%20cinematic%20lighting&width=1600&height=800&seq=1&orientation=landscape');
-      background-size: cover;
-      background-position: center;
+        background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(255,255,255,0.9)), url('https://readdy.ai/api/search-image?query=beautiful%20landscape%20of%20Saudi%20Arabia%20mountains%20with%20traditional%20architecture%2C%20lush%20green%20valleys%2C%20clear%20blue%20sky%2C%20natural%20scenery%2C%20traditional%20Saudi%20houses%20on%20hillside%2C%20high%20quality%2C%20detailed%2C%20cinematic%20lighting&width=1600&height=800&seq=1&orientation=landscape');
+        background-size: cover;
+        background-position: center;
+      }
+
+      .dark .hero-section {
+        background-image: linear-gradient(to left, rgba(0,0,0,0), rgba(31, 41, 55, 0.9)), url('https://readdy.ai/api/search-image?query=beautiful%20landscape%20of%20Saudi%20Arabia%20mountains%20with%20traditional%20architecture%2C%20lush%20green%20valleys%2C%20clear%20blue%20sky%2C%20natural%20scenery%2C%20traditional%20Saudi%20houses%20on%20hillside%2C%20high%20quality%2C%20detailed%2C%20cinematic%20lighting&width=1600&height=800&seq=1&orientation=landscape');
       }
       .section-title::after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 4px;
-      background-color: #3b82f6;
-      margin: 12px auto 0;
-      border-radius: 2px;
+        content: "";
+        display: block;
+        width: 80px;
+        height: 4px;
+        background-color: var(--primary-color);
+        margin: 12px auto 0;
+        border-radius: 2px;
       }
       .card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
       .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      }
+
+      .dark .card:hover {
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
       }
       input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #3b82f6;
-      border-radius: 4px;
-      outline: none;
-      cursor: pointer;
-      position: relative;
+        appearance: none;
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--primary-color);
+        border-radius: 4px;
+        outline: none;
+        cursor: pointer;
+        position: relative;
       }
       input[type="checkbox"]:checked {
-      background-color: #3b82f6;
+        background-color: var(--primary-color);
       }
       input[type="checkbox"]:checked::before {
-      content: "✓";
-      position: absolute;
-      color: white;
-      font-size: 14px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+        content: "✓";
+        position: absolute;
+        color: white;
+        font-size: 14px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .dark input[type="search"],
+      .dark input[type="text"],
+      .dark input[type="email"],
+      .dark input[type="number"],
+      .dark textarea,
+      .dark select {
+        background-color: #374151;
+        color: #f3f4f6;
+        border-color: #4b5563;
+      }
+
+      .dark input::placeholder {
+        color: #9ca3af;
       }
       .custom-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
       }
       .custom-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
+        opacity: 0;
+        width: 0;
+        height: 0;
       }
       .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 24px;
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 24px;
       }
       .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
       }
       input:checked + .slider {
-      background-color: #3b82f6;
+        background-color: var(--primary-color);
       }
       input:checked + .slider:before {
-      transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      .dark .bg-blue-100.text-blue-800 {
+        background-color: rgba(59, 130, 246, 0.2);
+        color: #93c5fd;
+      }
+
+      .dark .tab-active {
+        background-color: var(--primary-color);
       }
       .tab-active {
-      background-color: #3b82f6;
-      color: white;
+        background-color: var(--primary-color);
+        color: white;
       }
       .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 16px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 16px;
       }
       @media (max-width: 768px) {
-      .photo-grid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      }
+        .photo-grid {
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
       }
       .map-container {
-      height: 400px;
-      background-image: url('https://static.readdy.ai/image/d02abdaf45c01f342aebb2d0eb4cfb31/7f84befccc461a961ed3c805b29ba902.png');
-      background-size: cover;
-      background-position: center;
+        height: 400px;
+        background-image: url('https://static.readdy.ai/image/d02abdaf45c01f342aebb2d0eb4cfb31/7f84befccc461a961ed3c805b29ba902.png');
+        background-size: cover;
+        background-position: center;
+      }
+
+      .dark .map-container {
+        filter: brightness(0.8) contrast(1.2);
+        border: 1px solid var(--border-color);
       }
       input[type="number"]::-webkit-inner-spin-button,
       input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Modal styles for dark mode */
+      .dark .modal {
+        background: rgba(0, 0, 0, 0.9);
+      }
+
+      /* Search dropdown in dark mode */
+      .dark #searchDropdown {
+        background-color: var(--card-bg);
+        border-color: var(--border-color);
+      }
+
+      .dark #searchResults {
+        background-color: #374151;
       }
     </style>
   </head>
-  <body class="bg-gray-50 min-h-screen pb-16">
+  <body class="min-h-screen pb-16">
     <div
       id="offline-toast"
       class="fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50"
@@ -234,11 +381,15 @@
         class="container mx-auto px-4 py-3 flex justify-between items-center"
       >
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 flex items-center justify-center">
-            <i class="ri-notification-3-line text-gray-600 text-xl"></i>
+          <div class="w-16 h-8 flex items-center bg-gray-200 dark:bg-gray-700 rounded-full p-1 cursor-pointer relative" id="themeToggle">
+            <div class="w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 absolute left-1" id="themeToggleCircle"></div>
+            <div class="flex justify-between items-center w-full px-1.5">
+              <i class="ri-moon-line text-gray-600 text-sm"></i>
+              <i class="ri-sun-line text-yellow-500 text-sm"></i>
+            </div>
           </div>
-          <div class="bg-white rounded-full shadow-md px-8 py-3 border border-purple-100">
-            <h1 class="text-xl font-bold text-primary">
+          <div class="bg-white rounded-full shadow-sm px-5 py-1.5 border border-purple-100" style="box-shadow: 0 0 10px rgba(196, 181, 253, 0.3)">
+            <h1 class="text-sm font-medium text-primary">
               دليلك في سبت العلاية
             </h1>
           </div>
@@ -252,23 +403,25 @@
               <i class="ri-search-line text-gray-600 text-xl"></i>
             </div>
             <div
-              class="absolute top-full right-0 mt-2 w-72 bg-white rounded-lg shadow-lg p-4 hidden group"
+              class="fixed top-20 left-1/2 transform -translate-x-1/2 w-80 bg-white rounded-lg shadow-xl p-4 hidden z-50 border border-gray-200"
               id="searchDropdown"
             >
               <div class="relative">
                 <input
                   type="search"
-                  class="w-full pl-10 pr-4 py-2 bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white"
+                  class="w-full pl-10 pr-12 py-3 bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white shadow-inner"
                   placeholder="ابحث في الموقع..."
                   id="searchInput"
+                  dir="rtl"
                 />
                 <i
-                  class="ri-search-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+                  class="ri-search-line absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg"
                 ></i>
               </div>
               <div
-                class="mt-3 max-h-64 overflow-y-auto hidden"
+                class="mt-4 max-h-64 overflow-y-auto hidden text-right rounded-lg bg-gray-50 p-2"
                 id="searchResults"
+                dir="rtl"
               ></div>
             </div>
           </div>
@@ -280,43 +433,56 @@
     </header>
     <!-- Bottom Navigation -->
     <nav
-      class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50"
+      class="fixed bottom-2 left-2 right-2 bg-opacity-40 backdrop-blur-md rounded-xl shadow-lg border border-opacity-30 z-50 bg-white border-white dark:bg-opacity-20 dark:bg-gray-900 dark:border-gray-500 dark:border-opacity-20 dark:backdrop-blur-lg dark:backdrop-brightness-125"
     >
-      <div class="flex justify-around items-center py-2">
+      <div class="flex justify-around items-center py-1.5 px-1">
         <a
           href="#home"
-          class="flex flex-col items-center gap-1 px-3 py-1 text-primary"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          id="nav-home"
         >
-          <i class="ri-home-5-line text-xl"></i>
+          <i class="ri-home-5-line text-lg"></i>
           <span class="text-xs">الرئيسية</span>
         </a>
         <a
           href="#recreation"
-          class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          id="nav-recreation"
         >
-          <i class="ri-map-pin-line text-xl"></i>
+          <i class="ri-map-pin-line text-lg"></i>
           <span class="text-xs">المواقع</span>
         </a>
         <a
           href="#historical"
-          class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          id="nav-historical"
         >
-          <i class="ri-building-2-line text-xl"></i>
+          <i class="ri-building-2-line text-lg"></i>
           <span class="text-xs">التراث</span>
         </a>
         <a
           href="#restaurants"
-          class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          id="nav-restaurants"
         >
-          <i class="ri-store-2-line text-xl"></i>
+          <i class="ri-store-2-line text-lg"></i>
           <span class="text-xs">المطاعم</span>
         </a>
         <a
           href="#gallery"
-          class="flex flex-col items-center gap-1 px-3 py-1 text-gray-600"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          id="nav-gallery"
         >
-          <i class="ri-image-line text-xl"></i>
+          <i class="ri-image-line text-lg"></i>
           <span class="text-xs">الصور</span>
+        </a>
+        <a
+          href="#statistics"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          id="nav-statistics"
+        >
+          <i class="ri-bar-chart-line text-lg"></i>
+          <span class="text-xs">الإحصائيات</span>
         </a>
       </div>
     </nav>
@@ -342,9 +508,9 @@
               class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm"
             >
               <div
-                class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-lg text-primary"
+                class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-lg text-primary"
               >
-                <i class="ri-map-pin-line text-xl"></i>
+                <i class="ri-map-pin-line text-lg"></i>
               </div>
               <span class="text-xs text-gray-700">المواقع</span>
             </a>
@@ -353,9 +519,9 @@
               class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm"
             >
               <div
-                class="w-12 h-12 flex items-center justify-center bg-green-100 rounded-lg text-secondary"
+                class="w-10 h-10 flex items-center justify-center bg-green-100 rounded-lg text-secondary"
               >
-                <i class="ri-building-2-line text-xl"></i>
+                <i class="ri-building-2-line text-lg"></i>
               </div>
               <span class="text-xs text-gray-700">التراث</span>
             </a>
@@ -364,9 +530,9 @@
               class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm"
             >
               <div
-                class="w-12 h-12 flex items-center justify-center bg-yellow-100 rounded-lg text-yellow-600"
+                class="w-10 h-10 flex items-center justify-center bg-yellow-100 rounded-lg text-yellow-600"
               >
-                <i class="ri-store-2-line text-xl"></i>
+                <i class="ri-store-2-line text-lg"></i>
               </div>
               <span class="text-xs text-gray-700">المطاعم</span>
             </a>
@@ -375,9 +541,9 @@
               class="flex flex-col items-center gap-2 p-3 bg-white rounded-xl shadow-sm"
             >
               <div
-                class="w-12 h-12 flex items-center justify-center bg-purple-100 rounded-lg text-purple-600"
+                class="w-10 h-10 flex items-center justify-center bg-purple-100 rounded-lg text-purple-600"
               >
-                <i class="ri-image-line text-xl"></i>
+                <i class="ri-image-line text-lg"></i>
               </div>
               <span class="text-xs text-gray-700">الصور</span>
             </a>
@@ -500,7 +666,7 @@
               />
             </div>
             <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">منتزه شيبانة</h3>
+              <h3 class="text-sm font-medium text-gray-900 mb-2">منتزه شيبانة</h3>
               <p class="text-gray-700 mb-4">
                 يعد منتزه شيبانة من أجمل المنتزهات في المنطقة، حيث يتميز
                 بمساحاته الخضراء الواسعة ومرافقه المتنوعة التي تناسب جميع أفراد
@@ -532,7 +698,7 @@
               />
             </div>
             <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">
+              <h3 class="text-sm font-medium text-gray-900 mb-2">
                 حديقة الإبداع
               </h3>
               <p class="text-gray-700 mb-4">
@@ -566,7 +732,7 @@
               />
             </div>
             <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">
+              <h3 class="text-sm font-medium text-gray-900 mb-2">
                 ممشى المشايعة
               </h3>
               <p class="text-gray-700 mb-4">
@@ -616,7 +782,7 @@
               />
             </div>
             <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">
+              <h3 class="text-sm font-medium text-gray-900 mb-2">
                 القرية التراثية
               </h3>
               <p class="text-gray-700 mb-4">
@@ -664,7 +830,7 @@
               />
             </div>
             <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-2">
+              <h3 class="text-sm font-medium text-gray-900 mb-2">
                 سوق سبت العلاية الشعبي
               </h3>
               <p class="text-gray-700 mb-4">
@@ -727,7 +893,7 @@
               />
             </div>
             <div class="p-5">
-              <h3 class="text-lg font-bold text-gray-900 mb-2">
+              <h3 class="text-sm font-medium text-gray-900 mb-2">
                 كافيه هاف مليون
               </h3>
               <div class="flex items-center mb-3">
@@ -768,7 +934,7 @@
               />
             </div>
             <div class="p-5">
-              <h3 class="text-lg font-bold text-gray-900 mb-2">
+              <h3 class="text-sm font-medium text-gray-900 mb-2">
                 كافية ميمي
               </h3>
               <div class="flex items-center mb-3">
@@ -808,7 +974,7 @@
               />
             </div>
             <div class="p-5">
-              <h3 class="text-lg font-bold text-gray-900 mb-2">
+              <h3 class="text-sm font-medium text-gray-900 mb-2">
                 مطعم مشاوي العلايا
               </h3>
               <div class="flex items-center mb-3">
@@ -848,7 +1014,7 @@
               />
             </div>
             <div class="p-5">
-              <h3 class="text-lg font-bold text-gray-900 mb-2">مقهى فيوليت</h3>
+              <h3 class="text-sm font-medium text-gray-900 mb-2">مقهى فيوليت</h3>
               <div class="flex items-center mb-3">
                 <div class="flex text-yellow-400">
                   <i class="ri-star-fill"></i>
@@ -887,7 +1053,7 @@
               />
             </div>
             <div class="p-5">
-              <h3 class="text-lg font-bold text-gray-900 mb-2">
+              <h3 class="text-sm font-medium text-gray-900 mb-2">
                 مطعم فطور سبت
               </h3>
               <div class="flex items-center mb-3">
@@ -1043,7 +1209,7 @@
       </div>
     </section>
     <!-- Tourism Statistics -->
-    <section class="py-16 bg-gray-50">
+    <section id="statistics" class="py-16 bg-gray-50">
       <div class="container mx-auto px-4">
         <h2
           class="text-3xl font-bold text-center text-gray-900 mb-2 section-title"
@@ -1227,6 +1393,11 @@
           searchDropdown.classList.toggle("hidden");
           if (!searchDropdown.classList.contains("hidden")) {
             searchInput.focus();
+            // Ensure dropdown is visible and centered
+            searchDropdown.style.display = "block";
+          } else {
+            // Hide dropdown completely when toggled off
+            searchDropdown.style.display = "none";
           }
         });
         // Close dropdown when clicking outside
@@ -1236,6 +1407,15 @@
             !searchToggle.contains(e.target)
           ) {
             searchDropdown.classList.add("hidden");
+            searchDropdown.style.display = "none";
+          }
+        });
+
+        // Close dropdown when scrolling
+        window.addEventListener("scroll", function() {
+          if (!searchDropdown.classList.contains("hidden")) {
+            searchDropdown.classList.add("hidden");
+            searchDropdown.style.display = "none";
           }
         });
         // Search functionality
@@ -1275,9 +1455,9 @@
             searchResults.innerHTML = results
               .map(
                 (result) => `
-      <div class="p-2 hover:bg-gray-50 rounded cursor-pointer" onclick="scrollToElement('${result.element.id || generateId(result.element)}')">
+      <div class="p-3 hover:bg-white rounded-md mb-2 cursor-pointer transition-colors duration-200 border border-transparent hover:border-gray-200 shadow-sm" onclick="scrollToElement('${result.element.id || generateId(result.element)}')">
       <div class="text-sm font-medium text-gray-900">${result.title}</div>
-      <div class="text-xs text-gray-500">${result.type === "heading" ? "عنوان" : "محتوى"}</div>
+      <div class="text-xs text-gray-500 mt-1">${result.type === "heading" ? "عنوان" : "محتوى"}</div>
       </div>
       `,
               )
@@ -1285,7 +1465,7 @@
             searchResults.classList.remove("hidden");
           } else {
             searchResults.innerHTML =
-              '<div class="p-2 text-sm text-gray-500">لا توجد نتائج</div>';
+              '<div class="p-3 text-sm text-gray-500 text-center">لا توجد نتائج</div>';
             searchResults.classList.remove("hidden");
           }
         });
@@ -1303,7 +1483,9 @@
         if (element) {
           element.scrollIntoView({ behavior: "smooth", block: "center" });
           // Close search dropdown
-          document.getElementById("searchDropdown").classList.add("hidden");
+          const searchDropdown = document.getElementById("searchDropdown");
+          searchDropdown.classList.add("hidden");
+          searchDropdown.style.display = "none";
         }
       }
       // Service Worker Registration
@@ -1747,6 +1929,99 @@
             openModal(this.src);
           });
         });
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleCircle = document.getElementById('themeToggleCircle');
+
+        // Check for saved theme preference or use system preference
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+          themeToggleCircle.classList.add('translate-x-8');
+        }
+
+        // Toggle theme when clicking the switch
+        themeToggle.addEventListener('click', () => {
+          const isDark = document.documentElement.classList.toggle('dark');
+          themeToggleCircle.classList.toggle('translate-x-8');
+
+          // Save preference to localStorage
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+
+        // Navigation functionality
+        const navLinks = document.querySelectorAll('nav a');
+
+        // Function to update active navigation link
+        function updateActiveNavLink() {
+          const scrollPosition = window.scrollY;
+
+          // Get all section elements
+          const sections = document.querySelectorAll('section[id]');
+
+          // Find the current section
+          let currentSection = null;
+          sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionBottom = sectionTop + section.offsetHeight;
+
+            if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+              currentSection = section;
+            }
+          });
+
+          if (currentSection) {
+            const sectionId = currentSection.getAttribute('id');
+
+            // Remove active class from all links
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+            });
+
+            // Add active class to current link
+            const activeLink = document.querySelector(`nav a[href="#${sectionId}"]`);
+            if (activeLink) {
+              activeLink.classList.add('active');
+            }
+          }
+        }
+
+        // Add click event to navigation links
+        navLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+
+            if (targetSection) {
+              window.scrollTo({
+                top: targetSection.offsetTop - 20,
+                behavior: 'smooth'
+              });
+
+              // Update active link
+              navLinks.forEach(link => {
+                link.classList.remove('active');
+              });
+
+              this.classList.add('active');
+            }
+          });
+        });
+
+        // Update active link on scroll
+        window.addEventListener('scroll', updateActiveNavLink);
+
+        // Initialize active link
+        updateActiveNavLink();
+
+        // Set home as active by default if no section is active
+        if (!document.querySelector('nav a.active')) {
+          document.getElementById('nav-home').classList.add('active');
+        }
       });
     </script>
   </body>
