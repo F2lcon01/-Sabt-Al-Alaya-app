@@ -941,11 +941,75 @@
         color: #93c5fd;
       }
 
+      /* Tooltip styles */
+      .tooltip-container {
+        position: relative;
+      }
+
+      .tooltip {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s, visibility 0.2s;
+        z-index: 100;
+      }
+
+      .tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+      }
+
+      @media (min-width: 769px) {
+        .tooltip {
+          display: none;
+        }
+      }
+
       @media (max-width: 768px) {
         .card-footer .time-info,
         .card-footer .location-info {
           width: 90%;
           max-width: none;
+        }
+
+        /* Hide text in navigation for mobile */
+        nav a span.nav-text {
+          display: none;
+        }
+
+        /* Make icons smaller and adjust padding */
+        nav a {
+          padding: 0.5rem !important;
+        }
+
+        nav a i {
+          font-size: 1.25rem;
+        }
+
+        /* Adjust navigation container */
+        nav .flex {
+          padding: 0.5rem 0;
+        }
+
+        /* Show tooltip on tap for mobile */
+        nav a:active .tooltip {
+          opacity: 1;
+          visibility: visible;
         }
       }
       /* Google Maps iframe styles */
@@ -1069,75 +1133,93 @@
       <div class="flex justify-around items-center py-1.5 px-1">
         <a
           href="#home"
-          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white tooltip-container"
           id="nav-home"
+          aria-label="الرئيسية"
         >
           <i class="ri-home-5-line text-lg"></i>
-          <span class="text-xs">الرئيسية</span>
+          <span class="text-xs nav-text">الرئيسية</span>
+          <span class="tooltip">الرئيسية</span>
         </a>
         <a
           href="#recreation"
-          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white tooltip-container"
           id="nav-recreation"
+          aria-label="المواقع"
         >
           <i class="ri-map-pin-line text-lg"></i>
-          <span class="text-xs">المواقع</span>
+          <span class="text-xs nav-text">المواقع</span>
+          <span class="tooltip">المواقع</span>
         </a>
         <a
           href="#historical"
-          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white tooltip-container"
           id="nav-historical"
+          aria-label="التراث"
         >
           <i class="ri-building-2-line text-lg"></i>
-          <span class="text-xs">التراث</span>
+          <span class="text-xs nav-text">التراث</span>
+          <span class="tooltip">التراث</span>
         </a>
         <a
           href="#restaurants"
-          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white tooltip-container"
           id="nav-restaurants"
+          aria-label="الكافيهات"
         >
           <i class="ri-store-2-line text-lg"></i>
-          <span class="text-xs">الكافيهات</span>
+          <span class="text-xs nav-text">الكافيهات</span>
+          <span class="tooltip">الكافيهات</span>
         </a>
         <a
           href="#local-info"
-          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white tooltip-container"
           id="nav-local-info"
+          aria-label="معلومات محلية"
         >
           <i class="ri-information-line text-lg"></i>
-          <span class="text-xs">معلومات محلية</span>
+          <span class="text-xs nav-text">معلومات محلية</span>
+          <span class="tooltip">معلومات محلية</span>
         </a>
         <a
           href="#history-culture"
-          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white tooltip-container"
           id="nav-history-culture"
+          aria-label="تاريخ وثقافة"
         >
           <i class="ri-ancient-gate-line text-lg"></i>
-          <span class="text-xs">تاريخ وثقافة</span>
+          <span class="text-xs nav-text">تاريخ وثقافة</span>
+          <span class="tooltip">تاريخ وثقافة</span>
         </a>
         <a
           href="#nature-environment"
-          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white tooltip-container"
           id="nav-nature-environment"
+          aria-label="الطبيعة والبيئة"
         >
           <i class="ri-plant-line text-lg"></i>
-          <span class="text-xs">الطبيعة والبيئة</span>
+          <span class="text-xs nav-text">الطبيعة والبيئة</span>
+          <span class="tooltip">الطبيعة والبيئة</span>
         </a>
         <a
           href="#gallery"
-          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white tooltip-container"
           id="nav-gallery"
+          aria-label="الصور"
         >
           <i class="ri-image-line text-lg"></i>
-          <span class="text-xs">الصور</span>
+          <span class="text-xs nav-text">الصور</span>
+          <span class="tooltip">الصور</span>
         </a>
         <a
           href="#statistics"
-          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white"
+          class="flex flex-col items-center gap-0.5 px-2 py-1 text-gray-700 dark:text-white tooltip-container"
           id="nav-statistics"
+          aria-label="الإحصائيات"
         >
           <i class="ri-bar-chart-line text-lg"></i>
-          <span class="text-xs">الإحصائيات</span>
+          <span class="text-xs nav-text">الإحصائيات</span>
+          <span class="tooltip">الإحصائيات</span>
         </a>
       </div>
     </nav>
@@ -3520,6 +3602,34 @@
         if (!document.querySelector('nav a.active')) {
           document.getElementById('nav-home').classList.add('active');
         }
+
+        // Mobile tooltip functionality
+        const navItems = document.querySelectorAll('nav a');
+
+        // Handle tooltip display on mobile
+        navItems.forEach(item => {
+          // Show tooltip on touch
+          item.addEventListener('touchstart', function(e) {
+            // Hide all other tooltips first
+            navItems.forEach(otherItem => {
+              if (otherItem !== item) {
+                otherItem.querySelector('.tooltip').style.opacity = '0';
+                otherItem.querySelector('.tooltip').style.visibility = 'hidden';
+              }
+            });
+
+            // Show this tooltip
+            const tooltip = this.querySelector('.tooltip');
+            tooltip.style.opacity = '1';
+            tooltip.style.visibility = 'visible';
+
+            // Hide tooltip after 1.5 seconds
+            setTimeout(() => {
+              tooltip.style.opacity = '0';
+              tooltip.style.visibility = 'hidden';
+            }, 1500);
+          });
+        });
 
         // Lazy load images
         const images = document.querySelectorAll('img');
